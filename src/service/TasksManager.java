@@ -33,8 +33,8 @@ public class TasksManager {
         epics.put(epicId, task);
     }
 
-    public void createSubtask(String name, String description) {
-        Subtask task = new Subtask(name, description);
+    public void createSubtask(String name, String description, ) {
+        Subtask task = new Subtask(name, description, epicId);
         int subtaskId = task.getId();
         subtasks.put(subtaskId, task);
 
