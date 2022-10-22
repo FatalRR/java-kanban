@@ -18,13 +18,6 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public void updateTask (Task task) {
-        this.id = task.getId();
-        this.name = task.getName();
-        this.description = task.getDescription();
-        this.status = task.getStatus();
-    }
-
     public int getId() {
         return id;
     }
@@ -63,7 +56,8 @@ public class Task {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description) && status == task.status;
+                && Objects.equals(description, task.description)
+                && status == task.status;
     }
 
     @Override
