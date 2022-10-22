@@ -1,19 +1,59 @@
+import model.Epic;
+import model.Status;
+import model.Subtask;
+import model.Task;
 import service.TasksManager;
 
 public class Main {
 
     public static void main(String[] args) {
         TasksManager tasksManager = new TasksManager();
+//---------------------------------------------
+        System.out.println("Создание");
+        tasksManager.createTask(new Task("новая задача 1", "описание задачи 1", Status.NEW));
+        tasksManager.createTask(new Task("новая задача 2", "описание задачи 2", Status.NEW));
+        tasksManager.createEpic(new Epic("новый эпик 1", "описания эпик 1", Status.DONE));
+        tasksManager.createSubtask(new Subtask("подзадача 1-1", "описание подзадачи 1-1", 3, Status.NEW));
+        tasksManager.createSubtask(new Subtask("подзадача 1-2", "описание подзадачи 1-2", 3, Status.NEW));
+        tasksManager.createEpic(new Epic("новый эпик 2", "описания эпик 2", Status.NEW));
+        tasksManager.createSubtask(new Subtask("подзадача 2-1", "описание подзадачи 2-1", 6, Status.NEW));
 
-        tasksManager.createTask("новая задача 1", "описание задачи 1");
-        tasksManager.createTask("новая задача 2", "описание задачи 2");
-        tasksManager.createEpic("новый эпик 1", "описания эпик 1");
-        tasksManager.createSubtask("подзадача 1-1", "описание подзадачи 1-1");
-        tasksManager.createSubtask("подзадача 1-2", "описание подзадачи 1-2");
-        tasksManager.createEpic("новый эпик 2", "описания эпик 2");
-        tasksManager.createSubtask("подзадача 2-1", "описание подзадачи 2-1");
-        System.out.println("Все задачи: " + tasksManager.getAllTasks());
-        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic());
-        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasksByEpic());
+        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
+        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
+        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
+//---------------------------------------------
+        System.out.println("Получение подзадач по эпику");
+        System.out.println("Подзадачи по эпику " + tasksManager.getAllSubtasksByEpic(3) + "\n");
+//---------------------------------------------
+        System.out.println("Изменение статусов задач");
+        Task task = tasksManager.getTaskById(1);
+        task.setStatus(Status.DONE);
+        tasksManager.updateTask(task);
+        Epic epic = tasksManager.getEpicById(3);
+        epic.setStatus(Status.IN_PROGRESS);
+        tasksManager.updateEpic(epic);
+        Subtask subtask = tasksManager.getSubtaskById(7);
+        subtask.setStatus(Status.IN_PROGRESS);
+        tasksManager.updateSubtask(subtask);
+        System.out.println("Задача по id" + tasksManager.getTaskById(1) + "\n");
+        System.out.println("Подзадача по id" + tasksManager.getSubtaskById(7) + "\n");
+        System.out.println("Эпик по id" + tasksManager.getEpicById(3) + "\n");
+        System.out.println("Эпик по id" + tasksManager.getEpicById(6) + "\n");
+//---------------------------------------------
+        System.out.println("Удаление по id");
+        tasksManager.deleteTaskById(1);
+        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
+        tasksManager.deleteSubtaskById(7);
+        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
+        tasksManager.deleteEpicById(6);
+        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
+//---------------------------------------------
+        System.out.println("Удаление всех задач");
+        tasksManager.deleteAllTasks();
+        tasksManager.deleteAllSubtasks();
+        tasksManager.deleteAllEpics();
+        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
+        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
+        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
     }
 }
