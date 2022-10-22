@@ -34,20 +34,9 @@ public class Task {
         return status;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -67,7 +56,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return  "\n" + "Task{" +
+        return "\n" + "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

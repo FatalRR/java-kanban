@@ -9,6 +9,10 @@ import java.util.*;
 
 public class TasksManager {
     private static int id = 1;
+    private static final String NOT_TASK = "Такой задачи нет";
+    private static final String NOT_EPIC = "Такого эпика нет";
+    private static final String NOT_SUBTASK = "Такой подзадачи нет";
+
     protected HashMap<Integer, Task> tasks;
     protected HashMap<Integer, Subtask> subtasks;
     protected HashMap<Integer, Epic> epics;
@@ -40,7 +44,7 @@ public class TasksManager {
             epic.setSubTaskList(subtaskId);
             updateStatus(epic);
         } else {
-            System.out.println("Такой эпик не найден");
+            System.out.println(NOT_EPIC);
         }
     }
 
@@ -58,7 +62,7 @@ public class TasksManager {
         subtasks.clear();
         for (Epic epic : epics.values()) {
             epic.getSubTaskList().clear();
-            //updateStatusEpic(epic);
+            updateStatus(epic);
         }
     }
 
@@ -79,7 +83,7 @@ public class TasksManager {
         if (tasks.containsKey(id)) {
             tasks.remove(id);
         } else {
-            System.out.println("Задача не найдена");
+            System.out.println(NOT_TASK);
         }
     }
 
@@ -91,7 +95,7 @@ public class TasksManager {
             }
             epics.remove(id);
         } else {
-            System.out.println("Эпик не найден");
+            System.out.println(NOT_EPIC);
         }
     }
 
@@ -100,10 +104,10 @@ public class TasksManager {
         if (subtask != null) {
             Epic epic = epics.get(subtask.getEpicId());
             epic.getSubTaskList().remove((Integer) subtask.getId());
-            //updateStatusEpic(epic);
+            updateStatus(epic);
             subtasks.remove(id);
         } else {
-            System.out.println("Подзадача не найдена");
+            System.out.println(NOT_SUBTASK);
         }
     }
 
@@ -124,7 +128,7 @@ public class TasksManager {
             }
             return subtaskById;
         } else {
-            System.out.println("Такого эпика с подзадачами не существует");
+            System.out.println(NOT_EPIC);
             return Collections.emptyMap();
         }
     }
@@ -137,7 +141,7 @@ public class TasksManager {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
         } else {
-            System.out.println("Такой задачи не существует");
+            System.out.println(NOT_TASK);
         }
     }
 
@@ -146,7 +150,7 @@ public class TasksManager {
             epics.put(epic.getId(), epic);
             updateStatus(epic);
         } else {
-            System.out.println("Такого эпика не существует");
+            System.out.println(NOT_EPIC);
         }
     }
 
@@ -156,36 +160,40 @@ public class TasksManager {
             Epic epic = epics.get(subtask.getEpicId());
             updateStatus(epic);
         } else {
-            System.out.println("Такой подзадачи не существует");
+            System.out.println(NOT_SUBTASK);
         }
     }
 
     public void updateStatus(Epic epic) {
-        List<Subtask> test = new ArrayList<>();
-        int countDone = 0;
-        int countNew = 0;
-        for (int i = 0; i < epic.getSubTaskList().size(); i++) {
-            test.add(subtasks.get(epic.getSubTaskList().get(i)));
-        }
-        for (Subtask subtask : test) {
-            if (subtask.getStatus() == Status.DONE) {
-                countDone++;
+        if (epics.containsKey(epic.getId())) {
+            List<Subtask> test = new ArrayList<>();
+            int countDone = 0;
+            int countNew = 0;
+            for (int i = 0; i < epic.getSubTaskList().size(); i++) {
+                test.add(subtasks.get(epic.getSubTaskList().get(i)));
             }
-            if (subtask.getStatus() == Status.NEW) {
-                countNew++;
-            }
-            if (subtask.getStatus() == Status.IN_PROGRESS) {
-                epic.setStatus(Status.IN_PROGRESS);
-                return;
-            }
+            for (Subtask subtask : test) {
+                switch (subtask.getStatus()) {
+                    case DONE:
+                        countDone++;
+                        break;
+                    case NEW:
+                        countNew++;
+                        break;
+                    case IN_PROGRESS:
+                        return;
+                }
 
-            if (countDone == epic.getSubTaskList().size()) {
-                epic.setStatus(Status.DONE);
-            } else if (countNew == epic.getSubTaskList().size()) {
-                epic.setStatus(Status.NEW);
-            } else {
-                epic.setStatus(Status.IN_PROGRESS);
+                if (countDone == epic.getSubTaskList().size()) {
+                    epic.setStatus(Status.DONE);
+                } else if (countNew == epic.getSubTaskList().size()) {
+                    epic.setStatus(Status.NEW);
+                } else {
+                    epic.setStatus(Status.IN_PROGRESS);
+                }
             }
+        } else {
+            System.out.println(NOT_EPIC);
         }
     }
 }

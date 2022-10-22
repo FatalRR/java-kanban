@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subTaskList = new ArrayList<>();
+
     public Epic(String name, String description, Status status) {
         super(name, description, status);
     }
@@ -13,9 +14,11 @@ public class Epic extends Task {
     public List<Integer> getSubTaskList() {
         return subTaskList;
     }
+
     public void setSubTaskList(int id) {
         subTaskList.add(id);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,7 +35,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return  "\n"+ "Epic{" +
+        return "\n" + "Epic{" +
                 "subTaskList=" + subTaskList +
                 ", description='" + getDescription() + '\'' +
                 ", id=" + getId() +

@@ -13,14 +13,14 @@ public class Main {
         tasksManager.createTask(new Task("новая задача 1", "описание задачи 1", Status.NEW));
         tasksManager.createTask(new Task("новая задача 2", "описание задачи 2", Status.NEW));
         tasksManager.createEpic(new Epic("новый эпик 1", "описания эпик 1", Status.DONE));
-        tasksManager.createSubtask(new Subtask("подзадача 1-1", "описание подзадачи 1-1", 3, Status.NEW));
+        tasksManager.createSubtask(new Subtask("подзадача 1-1", "описание подзадачи 1-1", 3, Status.IN_PROGRESS));
         tasksManager.createSubtask(new Subtask("подзадача 1-2", "описание подзадачи 1-2", 3, Status.NEW));
         tasksManager.createEpic(new Epic("новый эпик 2", "описания эпик 2", Status.NEW));
-        tasksManager.createSubtask(new Subtask("подзадача 2-1", "описание подзадачи 2-1", 6, Status.NEW));
+        tasksManager.createSubtask(new Subtask("подзадача 2-1", "описание подзадачи 2-1", 6, Status.IN_PROGRESS));
 
-        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
-        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
-        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
+        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n" +
+                "Все эпик задачи: " + tasksManager.getAllEpic() + "\n" +
+                "Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
 //---------------------------------------------
         System.out.println("Получение подзадач по эпику");
         System.out.println("Подзадачи по эпику " + tasksManager.getAllSubtasksByEpic(3) + "\n");
@@ -52,8 +52,8 @@ public class Main {
         tasksManager.deleteAllTasks();
         tasksManager.deleteAllSubtasks();
         tasksManager.deleteAllEpics();
-        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
-        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
-        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
+        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n" +
+                "Все эпик задачи: " + tasksManager.getAllEpic() + "\n" +
+                "Все подзадачи эпиков: " + tasksManager.getAllSubtasks());
     }
 }
