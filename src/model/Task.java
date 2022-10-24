@@ -1,17 +1,14 @@
 package model;
 
-import service.TasksManager;
-
 import java.util.Objects;
 
 public class Task {
-    protected int id;
+    private int id;
     private final String name;
     private final String description;
     private Status status;
 
     public Task(String name, String description, Status status) {
-        this.id = TasksManager.generateId();
         this.name = name;
         this.description = description;
         this.status = status;
@@ -19,6 +16,10 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -32,7 +33,6 @@ public class Task {
     public Status getStatus() {
         return status;
     }
-
 
     public void setStatus(Status status) {
         this.status = status;
@@ -55,7 +55,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "\n" + "Task{" +
+        return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

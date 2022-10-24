@@ -15,8 +15,16 @@ public class Epic extends Task {
         return subTaskList;
     }
 
-    public void setSubTaskList(int id) {
+    public void addSubTaskList(int id) {
         subTaskList.add(id);
+    }
+
+    public void clearSubTaskList() {
+        getSubTaskList().clear();
+    }
+
+    public void removeSubTaskList(Integer id) {
+        getSubTaskList().remove(id);
     }
 
     @Override
@@ -35,7 +43,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "\n" + "Epic{" +
+        return "Epic{" +
                 "subTaskList=" + subTaskList +
                 ", description='" + getDescription() + '\'' +
                 ", id=" + getId() +
