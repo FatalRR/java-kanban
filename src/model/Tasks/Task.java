@@ -1,4 +1,6 @@
-package model;
+package model.Tasks;
+
+import model.Status;
 
 import java.util.Objects;
 

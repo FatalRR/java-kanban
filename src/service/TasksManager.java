@@ -1,8 +1,8 @@
 package service;
 
-import model.Epic;
-import model.Subtask;
-import model.Task;
+import model.Tasks.Epic;
+import model.Tasks.Subtask;
+import model.Tasks.Task;
 import model.Status;
 
 import java.util.*;
