@@ -1,9 +1,9 @@
-package manager;
+package ru.yandex.practicum.manager;
 
-import model.tasks.Epic;
-import model.tasks.Subtask;
-import model.tasks.Task;
-import model.Status;
+import ru.yandex.practicum.model.tasks.Epic;
+import ru.yandex.practicum.model.tasks.Subtask;
+import ru.yandex.practicum.model.tasks.Task;
+import ru.yandex.practicum.model.Status;
 
 import java.util.*;
 

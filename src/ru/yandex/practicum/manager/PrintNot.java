@@ -1,4 +1,4 @@
-package manager;
+package ru.yandex.practicum.manager;
 
 enum PrintNot {
     NOT_TASK("Такой задачи нет"),

@@ -1,8 +1,10 @@
-import model.tasks.Epic;
-import model.Status;
-import model.tasks.Subtask;
-import model.tasks.Task;
-import manager.TasksManager;
+package ru.yandex.practicum;
+
+import ru.yandex.practicum.model.tasks.Epic;
+import ru.yandex.practicum.model.Status;
+import ru.yandex.practicum.model.tasks.Subtask;
+import ru.yandex.practicum.model.tasks.Task;
+import ru.yandex.practicum.manager.TasksManager;
 
 public class Main {
 

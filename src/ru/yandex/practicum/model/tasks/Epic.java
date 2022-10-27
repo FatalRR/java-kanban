@@ -1,6 +1,6 @@
-package model.tasks;
+package ru.yandex.practicum.model.tasks;
 
-import model.Status;
+import ru.yandex.practicum.model.Status;
 
 import java.util.ArrayList;
 import java.util.List;
