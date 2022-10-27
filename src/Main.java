@@ -1,8 +1,8 @@
-import model.Tasks.Epic;
+import model.tasks.Epic;
 import model.Status;
-import model.Tasks.Subtask;
-import model.Tasks.Task;
-import service.TasksManager;
+import model.tasks.Subtask;
+import model.tasks.Task;
+import manager.TasksManager;
 
 public class Main {
 
@@ -35,18 +35,18 @@ public class Main {
         Subtask subtask = tasksManager.getSubtaskById(7);
         subtask.setStatus(Status.IN_PROGRESS);
         tasksManager.updateSubtask(subtask);
-        System.out.println("Задача по id" + tasksManager.getTaskById(1) + "\n");
-        System.out.println("Подзадача по id" + tasksManager.getSubtaskById(7) + "\n");
-        System.out.println("Эпик по id" + tasksManager.getEpicById(3) + "\n");
-        System.out.println("Эпик по id" + tasksManager.getEpicById(6) + "\n");
+        System.out.println("Задача по id" + tasksManager.getTaskById(1));
+        System.out.println("Подзадача по id" + tasksManager.getSubtaskById(7));
+        System.out.println("Эпик по id" + tasksManager.getEpicById(3));
+        System.out.println("Эпик по id" + tasksManager.getEpicById(6));
 //---------------------------------------------
         System.out.println("Удаление по id");
         tasksManager.deleteTaskById(1);
-        System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n");
+        System.out.println("Все задачи: " + tasksManager.getAllTasks());
         tasksManager.deleteSubtaskById(7);
-        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks() + "\n");
+        System.out.println("Все подзадачи эпиков: " + tasksManager.getAllSubtasks());
         tasksManager.deleteEpicById(6);
-        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic() + "\n");
+        System.out.println("Все эпик задачи: " + tasksManager.getAllEpic());
 //---------------------------------------------
         System.out.println("Удаление всех задач");
         tasksManager.deleteAllTasks();

@@ -1,4 +1,4 @@
-package model.Tasks;
+package model.tasks;
 
 import model.Status;
 
@@ -22,11 +22,11 @@ public class Epic extends Task {
     }
 
     public void clearSubTaskList() {
-        getSubTaskList().clear();
+        subTaskList.clear();
     }
 
     public void removeSubTaskList(Integer id) {
-        getSubTaskList().remove(id);
+        subTaskList.remove(id);
     }
 
     @Override

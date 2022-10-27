@@ -1,4 +1,4 @@
-package model.Tasks;
+package model.tasks;
 
 import model.Status;
 
