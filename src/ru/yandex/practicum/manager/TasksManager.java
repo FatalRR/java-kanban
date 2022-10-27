@@ -136,18 +136,20 @@ public class TasksManager {
         }
     }
 
-    public Map<Integer, Task> getAllTasks() {
-        return tasks;
+    public List<Task> getAllTasks() {
+        Collection<Task> values = tasks.values();
+        return new ArrayList<>(values);
     }
 
-    public Map<Integer, Subtask> getAllSubtasks() {
-        return subtasks;
+    public List<Subtask> getAllSubtasks() {
+        Collection<Subtask> values = subtasks.values();
+        return new ArrayList<>(values);
     }
 
     public List<Subtask> getAllSubtasksByEpic(int id) {
-        if (epics.get(id) != null) {
+        Epic epic = epics.get(id);
+        if (epic != null) {
             List<Subtask> subtaskById = new ArrayList<>();
-            Epic epic = epics.get(id);
             for (int i = 0; i < epic.getSubTaskList().size(); i++) {
                 Subtask subList = subtasks.get(epic.getSubTaskList().get(i));
                 if (subList != null) {
@@ -163,8 +165,9 @@ public class TasksManager {
         }
     }
 
-    public Map<Integer, Epic> getAllEpic() {
-        return epics;
+    public List<Epic> getAllEpic() {
+        Collection<Epic> values = epics.values();
+        return new ArrayList<>(values);
     }
 
     public void updateTask(Task task) {
@@ -194,6 +197,4 @@ public class TasksManager {
             System.out.println(PrintNot.NOT_SUBTASK);
         }
     }
-
-
 }
