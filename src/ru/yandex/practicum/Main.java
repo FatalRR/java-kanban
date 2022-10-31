@@ -1,15 +1,18 @@
 package ru.yandex.practicum;
 
+import ru.yandex.practicum.manager.Managers;
 import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.Status;
 import ru.yandex.practicum.model.tasks.Subtask;
 import ru.yandex.practicum.model.tasks.Task;
 import ru.yandex.practicum.manager.TasksManager;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
-        TasksManager tasksManager = new TasksManager();
+        TasksManager tasksManager = Managers.getInMemoryTaskManager(Managers.getDefaultHistory());
 //---------------------------------------------
         System.out.println("Создание");
         tasksManager.createTask(new Task("новая задача 1", "описание задачи 1", Status.NEW));
@@ -34,6 +37,11 @@ public class Main {
         Epic epic = tasksManager.getEpicById(3);
         epic.setStatus(Status.IN_PROGRESS);
         tasksManager.updateEpic(epic);
+//---------------------------------------------
+        System.out.println("История");
+        List<Task> history = tasksManager.getHistory();
+        System.out.println(history);
+ //---------------------------------------------
         Subtask subtask = tasksManager.getSubtaskById(7);
         subtask.setStatus(Status.IN_PROGRESS);
         tasksManager.updateSubtask(subtask);
@@ -41,6 +49,7 @@ public class Main {
         System.out.println("Подзадача по id" + tasksManager.getSubtaskById(7));
         System.out.println("Эпик по id" + tasksManager.getEpicById(3));
         System.out.println("Эпик по id" + tasksManager.getEpicById(6));
+
 //---------------------------------------------
         System.out.println("Удаление по id");
         tasksManager.deleteTaskById(1);
@@ -57,5 +66,8 @@ public class Main {
         System.out.println("Все задачи: " + tasksManager.getAllTasks() + "\n" +
                 "Все эпик задачи: " + tasksManager.getAllEpic() + "\n" +
                 "Все подзадачи эпиков: " + tasksManager.getAllSubtasks());
+//---------------------------------------------
+        System.out.println("История");
+        System.out.println(history);
     }
 }
