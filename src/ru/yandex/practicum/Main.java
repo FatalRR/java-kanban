@@ -41,7 +41,7 @@ public class Main {
         System.out.println("История");
         List<Task> history = tasksManager.getHistory();
         System.out.println(history);
- //---------------------------------------------
+        //---------------------------------------------
         Subtask subtask = tasksManager.getSubtaskById(7);
         subtask.setStatus(Status.IN_PROGRESS);
         tasksManager.updateSubtask(subtask);
