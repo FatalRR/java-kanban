@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        TasksManager tasksManager = Managers.getInMemoryTaskManager(Managers.getDefaultHistory());
+        TasksManager tasksManager = Managers.getDefault();
 //---------------------------------------------
         System.out.println("Создание");
         tasksManager.createTask(new Task("новая задача 1", "описание задачи 1", Status.NEW));
