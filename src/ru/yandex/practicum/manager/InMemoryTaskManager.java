@@ -9,17 +9,16 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TasksManager {
     private int id = 1;
-    protected HashMap<Integer, Task> tasks = new HashMap<>();
-    protected HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    protected HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
 
-    @Override
-    public void updateStatus(Epic epic) {
+    private void updateStatus(Epic epic) {
         if (epics.get(epic.getId()) != null) {
             int countDone = 0;
             int countNew = 0;
@@ -49,7 +48,7 @@ public class InMemoryTaskManager implements TasksManager {
         }
     }
 
-    public int generateId() {
+    private int generateId() {
         return id++;
     }
 
