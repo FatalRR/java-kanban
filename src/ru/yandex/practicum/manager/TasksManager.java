@@ -8,8 +8,6 @@ import java.util.*;
 
 public interface TasksManager {
 
-    void updateStatus(Epic epic);
-
     void createTask(Task task);
 
     void createEpic(Epic epic);
