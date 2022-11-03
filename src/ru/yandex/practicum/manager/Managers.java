@@ -3,7 +3,7 @@ package ru.yandex.practicum.manager;
 public class Managers {
 
     public static TasksManager getDefault() {
-        return new InMemoryTaskManager(getDefaultHistory());
+        return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDefaultHistory() {
