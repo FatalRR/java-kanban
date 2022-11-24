@@ -32,7 +32,6 @@ public class CustomLinkedList {
             tail.setNext(elem);
             tail = elem;
         }
-
         history.put(task.getId(), elem);
     }
 
