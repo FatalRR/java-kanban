@@ -2,28 +2,24 @@ package ru.yandex.practicum.manager;
 
 import ru.yandex.practicum.model.tasks.Task;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private static final int TASK_LIMIT = 10;
-    private final LinkedList<Task> taskHistory = new LinkedList<>();
+
+    private final CustomLinkedList taskHistory = new CustomLinkedList();
 
     @Override
     public void add(Task task) {
-        if (task != null) {
-            if (taskHistory.size() == TASK_LIMIT) {
-                taskHistory.removeFirst();
-            }
-            taskHistory.add(task);
-        } else {
-            System.out.println(PrintNot.NOT_TASK);
-        }
+        taskHistory.linkLast(task);
+    }
+
+    @Override
+    public void remove(int id) {
+        taskHistory.removeNode(taskHistory.getNode(id));
     }
 
     @Override
     public List<Task> getTaskHistory() {
-        return taskHistory;
+        return taskHistory.getTasks();
     }
 }
