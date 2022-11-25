@@ -2,12 +2,8 @@ package ru.yandex.practicum.manager;
 
 import ru.yandex.practicum.model.tasks.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-/* Наставник посоветовал вынести в отдельный класс логику реализации кастомной коллекции, хотя в тз написано,
-что сделать в одном классе*/
+import java.util.*;
+
 public class CustomLinkedList {
     private final Map<Integer, Node> history = new HashMap<>();
     private Node head;
@@ -22,16 +18,16 @@ public class CustomLinkedList {
         }
 
         if (head == null) {
-            tail = elem;
             head = elem;
-            elem.setNext(null);
             elem.setPrev(null);
         } else {
             elem.setPrev(tail);
-            elem.setNext(null);
             tail.setNext(elem);
-            tail = elem;
         }
+
+        tail = elem;
+        elem.setNext(null);
+
         history.put(task.getId(), elem);
     }
 
@@ -39,24 +35,24 @@ public class CustomLinkedList {
         List<Task> resTask = new ArrayList<>();
         Node elem = head;
         while (elem != null) {
-            resTask.add(elem.getTask());
-            elem = elem.getNext();
+            resTask.add(elem.task);
+            elem = elem.next;
         }
         return resTask;
     }
 
     void removeNode(Node node) {
         if (node != null) {
-            history.remove(node.getTask().getId());
-            Node prev = node.getPrev();
-            Node next = node.getNext();
+            history.remove(node.task.getId());
+            Node prev = node.prev;
+            Node next = node.next;
 
-            if (head == node) {
-                head = node.getNext();
+/*            if (head == node) {
+                head = node.next;
             }
 
             if (tail == node) {
-                tail = node.getPrev();
+                tail = node.prev;
             }
 
             if (prev != null) {
@@ -65,11 +61,40 @@ public class CustomLinkedList {
 
             if (next != null) {
                 next.setPrev(prev);
+            }*/
+            if (prev == null) {
+                head = next;
+            } else {
+                prev.next = next;
             }
+            if (next == null) {
+                tail = prev;
+            } else {
+                next.prev = prev;
+            }
+
         }
     }
 
     Node getNode(int id) {
         return history.get(id);
+    }
+
+    private static class Node {
+        Task task;
+        Node prev;
+        Node next;
+
+        public void setTask(Task task) {
+            this.task = task;
+        }
+
+        public void setPrev(Node prev) {
+            this.prev = prev;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
     }
 }
