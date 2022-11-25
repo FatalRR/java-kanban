@@ -22,3 +22,9 @@ Y
 -src/ru/yandex/practicum/model/tasks/Task.java,4\4\44ffa82532dba369ca4571de5abb696a0dd06362
 ]
 -src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
+]
+-src/ru/yandex/practicum/manager/Managers.java,8\6\86e5d37dbdf187f355b0650697b875fec3e647a6
+c
+3src/ru/yandex/practicum/manager/HistoryManager.java,1\9\1917a27bad6a99d449376748c01271a8b0ae6b09
+a
+1src/ru/yandex/practicum/manager/TasksManager.java,9\6\967158af2c9562be03d1ddb5a209835f94a99d0f

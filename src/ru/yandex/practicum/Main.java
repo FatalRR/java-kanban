@@ -19,6 +19,7 @@ public class Main {
         tasksManager.createEpic(new Epic("новый эпик 1", "описания эпик 1", Status.NEW));
         tasksManager.createEpic(new Epic("новый эпик 2", "описания эпик 2", Status.NEW));
         tasksManager.createEpic(new Epic("новый эпик 3", "описания эпик 3", Status.NEW));
+
         tasksManager.createSubtask(new Subtask("подзадача 1-1", "описание подзадачи 1-1", 1, Status.IN_PROGRESS));
         tasksManager.createSubtask(new Subtask("подзадача 1-2", "описание подзадачи 1-2", 1, Status.NEW));
         tasksManager.createSubtask(new Subtask("подзадача 1-3", "описание подзадачи 1-3", 1, Status.IN_PROGRESS));
@@ -48,8 +49,8 @@ public class Main {
         System.out.println(history);
 //---------------------------------------------
         System.out.println("Удаление из истории просмотров");
-        tasksManager.remove(3);
         tasksManager.remove(2);
+        tasksManager.remove(3);
         List<Task> history2 = tasksManager.getHistory();
         System.out.println(history2);
     }
