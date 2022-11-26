@@ -11,7 +11,8 @@ public class CustomLinkedList {
 
     void linkLast(Task task) {
         Node elem = new Node();
-        elem.setTask(task);
+        elem.task = task;
+        elem.prev = tail;
 
         if (history.containsKey(task.getId())) {
             removeNode(history.get(task.getId()));
@@ -19,14 +20,12 @@ public class CustomLinkedList {
 
         if (head == null) {
             head = elem;
-            elem.setPrev(null);
         } else {
-            elem.setPrev(tail);
-            tail.setNext(elem);
+            tail.next = elem;
         }
 
         tail = elem;
-        elem.setNext(null);
+        elem.next = null;
 
         history.put(task.getId(), elem);
     }
@@ -47,21 +46,6 @@ public class CustomLinkedList {
             Node prev = node.prev;
             Node next = node.next;
 
-/*            if (head == node) {
-                head = node.next;
-            }
-
-            if (tail == node) {
-                tail = node.prev;
-            }
-
-            if (prev != null) {
-                prev.setNext(next);
-            }
-
-            if (next != null) {
-                next.setPrev(prev);
-            }*/
             if (prev == null) {
                 head = next;
             } else {
@@ -72,7 +56,6 @@ public class CustomLinkedList {
             } else {
                 next.prev = prev;
             }
-
         }
     }
 
@@ -84,17 +67,5 @@ public class CustomLinkedList {
         Task task;
         Node prev;
         Node next;
-
-        public void setTask(Task task) {
-            this.task = task;
-        }
-
-        public void setPrev(Node prev) {
-            this.prev = prev;
-        }
-
-        public void setNext(Node next) {
-            this.next = next;
-        }
     }
 }
