@@ -12,7 +12,7 @@ public class InMemoryTaskManager implements TasksManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
     protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     protected final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
     private void updateStatus(Epic epic) {
         if (epics.get(epic.getId()) != null) {
@@ -255,5 +255,15 @@ public class InMemoryTaskManager implements TasksManager {
         subtasks.forEach((key, value) -> {
             historyManager.remove(key);
         });
+    }
+
+    public void addHistory(int id) {
+        if (epics.containsKey(id)) {
+            historyManager.add(epics.get(id));
+        } else if (subtasks.containsKey(id)) {
+            historyManager.add(subtasks.get(id));
+        } else {
+            historyManager.add(tasks.get(id));
+        }
     }
 }
