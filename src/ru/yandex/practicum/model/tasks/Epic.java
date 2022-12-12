@@ -1,5 +1,6 @@
 package ru.yandex.practicum.model.tasks;
 
+import ru.yandex.practicum.manager.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Epic extends Task {
 
     public Epic(String name, String description, Status status) {
         super(name, description, status);
+        this.taskType = TaskType.EPIC;
     }
 
     public List<Integer> getSubTaskList() {
@@ -51,6 +53,7 @@ public class Epic extends Task {
                 ", id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
+                ", taskType=" + getTaskType() +
                 '}';
     }
 }

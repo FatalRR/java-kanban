@@ -16,5 +16,13 @@ G.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d,b\4\b4
 -src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
 Y
 )src/ru/yandex/practicum/model/Status.java,9\f\9f70ff3e95235a5fa4149eb1a1441f12d3c4cd5e
+e
+5src/ru/yandex/practicum/manager/CustomLinkedList.java,1\f\1fa0dc2a8ee65b53bd0b93d34f8aa285f5d5c41e
+a
+1src/ru/yandex/practicum/manager/TasksManager.java,9\6\967158af2c9562be03d1ddb5a209835f94a99d0f
+c
+3src/ru/yandex/practicum/manager/HistoryManager.java,1\9\1917a27bad6a99d449376748c01271a8b0ae6b09
+k
+;src/ru/yandex/practicum/manager/InMemoryHistoryManager.java,8\d\8d7e52b315b2467d7bd6ed571dcf16859550550e
 ]
--src/ru/yandex/practicum/model/tasks/Epic.java,9\8\98458172b24f3017803e01cc0f63cfdf1a2936b5
+-src/ru/yandex/practicum/manager/TaskType.java,c\b\cb016f381f6f4e62b5ae8f0ae65d0a76406b6c14

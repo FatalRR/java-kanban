@@ -1,5 +1,6 @@
 package ru.yandex.practicum.model.tasks;
 
+import ru.yandex.practicum.manager.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.util.Objects;
@@ -9,6 +10,7 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description, int epicId, Status status) {
         super(name, description, status);
+        this.taskType = TaskType.SUBTASK;
         this.epicId = epicId;
     }
 
@@ -39,6 +41,7 @@ public class Subtask extends Task {
                 ", id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
+                ", taskType=" + getTaskType() +
                 '}';
     }
 }
