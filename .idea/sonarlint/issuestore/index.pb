@@ -18,8 +18,6 @@ Y
 )src/ru/yandex/practicum/model/Status.java,9\f\9f70ff3e95235a5fa4149eb1a1441f12d3c4cd5e
 e
 5src/ru/yandex/practicum/manager/CustomLinkedList.java,1\f\1fa0dc2a8ee65b53bd0b93d34f8aa285f5d5c41e
-a
-1src/ru/yandex/practicum/manager/TasksManager.java,9\6\967158af2c9562be03d1ddb5a209835f94a99d0f
 c
 3src/ru/yandex/practicum/manager/HistoryManager.java,1\9\1917a27bad6a99d449376748c01271a8b0ae6b09
 k

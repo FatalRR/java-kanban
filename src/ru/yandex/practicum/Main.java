@@ -17,10 +17,8 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Запись в файл");
-        Path path = Path.of("save.csv");
-        File file = new File(String.valueOf(path));
 
-        TasksManager fileBackedTasksManager = Managers.getDefault(file);
+        TasksManager fileBackedTasksManager = Managers.getDefault();
 
         fileBackedTasksManager.createTask(new Task("новая задача 1", "описание задачи 1", Status.NEW));
         fileBackedTasksManager.createTask(new Task("новая задача 2", "описание задачи 2", Status.NEW));
@@ -30,6 +28,7 @@ public class Main {
 
         fileBackedTasksManager.createSubtask(new Subtask("подзадача 1-1", "описание подзадачи 1-1", 3, Status.IN_PROGRESS));
         fileBackedTasksManager.createSubtask(new Subtask("подзадача 1-2", "описание подзадачи 1-2", 3, Status.IN_PROGRESS));
+        fileBackedTasksManager.createSubtask(new Subtask("подзадача 1-3", "описание подзадачи 1-3", 3, Status.IN_PROGRESS));
         //---------------------------------------------
         System.out.println("Получение подзадач по эпику");
         System.out.println("Эпик по id " + fileBackedTasksManager.getEpicById(3) + "\n");
