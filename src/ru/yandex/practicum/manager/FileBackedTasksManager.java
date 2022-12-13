@@ -61,6 +61,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
+    private void addTask(Task task) {
+        super.createTask(task);
+    }
+
+    private void addEpic(Epic epic) {
+        super.createEpic(epic);
+    }
+
+    private void addSubtask(Subtask subtask) {
+        super.createSubtask(subtask);
+    }
+
     public void save() {
         try {
             if (!Files.exists(file.toPath())) {
@@ -150,18 +162,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
         save();
-    }
-
-    public void addTask(Task task) {
-        super.createTask(task);
-    }
-
-    public void addEpic(Epic epic) {
-        super.createEpic(epic);
-    }
-
-    public void addSubtask(Subtask subtask) {
-        super.createSubtask(subtask);
     }
 
     @Override

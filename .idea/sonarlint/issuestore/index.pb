@@ -24,3 +24,13 @@ k
 ;src/ru/yandex/practicum/manager/InMemoryHistoryManager.java,8\d\8d7e52b315b2467d7bd6ed571dcf16859550550e
 ]
 -src/ru/yandex/practicum/manager/TaskType.java,c\b\cb016f381f6f4e62b5ae8f0ae65d0a76406b6c14
+i
+9src/ru/yandex/practicum/manager/ManagerSaveException.java,5\0\50fdac00659ab82f4735622314d3a36f79e61ac9
+8
+save.csv,c\a\ca353897e25df9092d1396274593ce989bf4ba69
+]
+-src/ru/yandex/practicum/model/tasks/Epic.java,9\8\98458172b24f3017803e01cc0f63cfdf1a2936b5
+]
+-src/ru/yandex/practicum/manager/Managers.java,8\6\86e5d37dbdf187f355b0650697b875fec3e647a6
+`
+0src/ru/yandex/practicum/model/tasks/Subtask.java,5\8\585ba8ff84b0019d11255da0c488ce316a7b58a1
