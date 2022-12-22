@@ -4,12 +4,17 @@ import ru.yandex.practicum.manager.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.util.Objects;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class Task {
     private int id;
     private final String name;
     private final String description;
     private Status status;
+    private Instant startTime;
+    private long duration;
     protected TaskType taskType;
 
     public Task(String name, String description, Status status) {
@@ -17,6 +22,17 @@ public class Task {
         this.description = description;
         this.status = status;
         this.taskType = TaskType.TASK;
+    }
+
+    public Task(int id, String name, String description, Status status, Instant startTime, long duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.taskType = TaskType.TASK;
+        ;
     }
 
     public int getId() {
@@ -49,6 +65,26 @@ public class Task {
 
     public Integer getEpicId() {
         return null;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public Instant getEndTime() {
+        return startTime.plusSeconds(duration * 60);
     }
 
     @Override
