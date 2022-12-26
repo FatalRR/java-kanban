@@ -24,8 +24,7 @@ public class Task {
         this.taskType = TaskType.TASK;
     }
 
-    public Task(int id, String name, String description, Status status, Instant startTime, long duration) {
-        this.id = id;
+    public Task(String name, String description, Status status, Instant startTime, long duration) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -88,21 +87,6 @@ public class Task {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description)
-                && status == task.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, status);
-    }
-
-    @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
@@ -110,6 +94,28 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", taskType=" + taskType +
+                ", startTime=" + startTime.toEpochMilli() + '\'' +
+                ", entTime=" + getEndTime().toEpochMilli() + '\'' +
+                ", duration=" + duration +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id
+                && duration == task.duration
+                && Objects.equals(name, task.name)
+                && Objects.equals(description, task.description)
+                && status == task.status
+                && Objects.equals(startTime, task.startTime)
+                && taskType == task.taskType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, status, startTime, duration, taskType);
     }
 }

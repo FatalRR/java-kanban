@@ -3,16 +3,23 @@ package ru.yandex.practicum.model.tasks;
 import ru.yandex.practicum.manager.TaskType;
 import ru.yandex.practicum.model.Status;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subTaskList = new ArrayList<>();
+    private Instant endTime;
 
     public Epic(String name, String description, Status status) {
         super(name, description, status);
         this.taskType = TaskType.EPIC;
+    }
+
+    public Epic(String name, String description, Status status, Instant startTime, long duration) {
+        super(name, description, status, startTime, duration);
+        this.endTime = super.getEndTime();
     }
 
     public List<Integer> getSubTaskList() {
@@ -29,6 +36,15 @@ public class Epic extends Task {
 
     public void removeSubTaskList(Integer id) {
         subTaskList.remove(id);
+    }
+
+    public void setEndTime (Instant endTime) {
+        this.endTime=endTime;
+    }
+
+    @Override
+    public  Instant getEndTime(){
+        return endTime;
     }
 
     @Override
@@ -59,6 +75,9 @@ public class Epic extends Task {
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
                 ", taskType=" + getTaskType() +
+                ", startTime=" + getStartTime().toEpochMilli() + '\'' +
+                ", endTime=" + getEndTime().toEpochMilli() + '\'' +
+                ", duration=" + getDuration() +
                 '}';
     }
 }

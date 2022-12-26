@@ -6,6 +6,7 @@ import ru.yandex.practicum.model.tasks.Subtask;
 import ru.yandex.practicum.model.tasks.Task;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TasksManager {
     private int id = 1;
@@ -13,6 +14,10 @@ public class InMemoryTaskManager implements TasksManager {
     protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     protected final HashMap<Integer, Epic> epics = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
+
+    protected final Comparator<Task> taskComparator = Comparator.comparing(Task::getStartTime);
+
+    protected Set<Task> prioritizedTasks = new TreeSet<>(taskComparator);
 
     private void updateStatus(Epic epic) {
         if (epics.get(epic.getId()) != null) {
@@ -48,11 +53,56 @@ public class InMemoryTaskManager implements TasksManager {
         return id++;
     }
 
+    private void addNewPrioritizedTask(Task task) {
+        prioritizedTasks.add(task);
+        validateTaskPriority();
+    }
+
+    private void validateTaskPriority() {
+        List<Task> tasks = getPrioritizedTasks();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            boolean taskHasIntersections = checkTime(task);
+
+            if (taskHasIntersections) {
+                throw new ManagerValidateException("Задача " + task.getId() + " и " + tasks.get(i - 1) + "пересекаются");
+            }
+        }
+
+    }
+
+    public boolean checkTime(Task task) {
+        List<Task> tasks = List.copyOf(prioritizedTasks);
+        int sizeTime = 0;
+        if(tasks.size() > 0) {
+            for (Task taskSave : tasks) {
+                if(taskSave.getStartTime() != null && taskSave.getEndTime() != null) {
+                    if(task.getStartTime().isBefore(taskSave.getStartTime()) && task.getEndTime().isBefore(taskSave.getEndTime())) { // end time?
+                        return true;
+                    } else if(task.getStartTime().isAfter(taskSave.getEndTime()) && task.getEndTime().isAfter(taskSave.getEndTime())) {
+                        return true;
+                    }
+                } else {
+                    sizeTime++;
+                }
+            }
+            return  sizeTime == tasks.size();
+        } else {
+            return true;
+        }
+    }
+
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks); // чекнуть работает ли
+    }
+
     @Override
     public void createTask(Task task) {
         int taskId = generateId();
         task.setId(taskId);
         tasks.put(taskId, task);
+        addNewPrioritizedTask(task);
     }
 
     @Override

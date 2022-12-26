@@ -3,6 +3,7 @@ package ru.yandex.practicum.model.tasks;
 import ru.yandex.practicum.manager.TaskType;
 import ru.yandex.practicum.model.Status;
 
+import java.time.Instant;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -11,6 +12,11 @@ public class Subtask extends Task {
     public Subtask(String name, String description, int epicId, Status status) {
         super(name, description, status);
         this.taskType = TaskType.SUBTASK;
+        this.epicId = epicId;
+    }
+
+    public Subtask(String name, String description, Status status, Instant startTime, long duration, int epicId) {
+        super(name, description, status, startTime, duration);
         this.epicId = epicId;
     }
 
@@ -43,6 +49,9 @@ public class Subtask extends Task {
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
                 ", taskType=" + getTaskType() +
+                ", startTime='" + getStartTime().toEpochMilli() + '\'' +
+                ", endTime='" + getEndTime().toEpochMilli() + '\'' +
+                ", duration='" + getDuration() +
                 '}';
     }
 }
