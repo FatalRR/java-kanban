@@ -8,13 +8,14 @@ import ru.yandex.practicum.model.tasks.Task;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final File file;
 
-    static final String HEADER = "id,type,name,status,description,epic";
+    static final String HEADER = "id,type,name,status,description,epic,startTime,endTime, duration";
 
     public FileBackedTasksManager(File file) {
         super();
@@ -27,7 +28,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 task.getName() + "," +
                 task.getStatus() + "," +
                 task.getDescription() + "," +
-                task.getEpicId();
+                task.getEpicId()+ "," +
+                task.getStartTime() + "," +
+                task.getEndTime() + "," +
+                task.getDuration();
     }
 
     private static Task fromString(String value) {
@@ -37,23 +41,25 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         String name = elem[2];
         String description = elem[4];
         Status status = Status.valueOf(elem[3].toUpperCase());
+        Instant startTime = Instant.parse(elem[6]);
+        long duration = Long.parseLong(elem[8]);
 
         switch (TaskType.valueOf(elem[1])) {
             case EPIC:
-                Epic epic = new Epic(name, description, status);
+                Epic epic = new Epic(name, description, status, startTime, duration);
                 epic.setId(id);
                 epic.setStatus(status);
                 return epic;
             case SUBTASK:
                 int epicNumber = 0;
-                if (elem.length == 6) {
+                if (elem.length == 9) {
                     epicNumber = Integer.parseInt(elem[5]);
                 }
-                Subtask subtask = new Subtask(name, description, epicNumber, status);
+                Subtask subtask = new Subtask(name, description, status, epicNumber, startTime, duration);
                 subtask.setId(id);
                 return subtask;
             case TASK:
-                Task task = new Task(name, description, status);
+                Task task = new Task(name, description, status, startTime, duration);
                 task.setId(id);
                 return task;
             default:

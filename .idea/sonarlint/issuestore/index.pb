@@ -1,8 +1,6 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-?
-java-kanban.iml,d\f\df5dcbbd3f931c7c23855ccec11732ab4c8544f2
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
@@ -16,21 +14,13 @@ G.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d,b\4\b4
 -src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
 Y
 )src/ru/yandex/practicum/model/Status.java,9\f\9f70ff3e95235a5fa4149eb1a1441f12d3c4cd5e
-e
-5src/ru/yandex/practicum/manager/CustomLinkedList.java,1\f\1fa0dc2a8ee65b53bd0b93d34f8aa285f5d5c41e
 c
 3src/ru/yandex/practicum/manager/HistoryManager.java,1\9\1917a27bad6a99d449376748c01271a8b0ae6b09
-k
-;src/ru/yandex/practicum/manager/InMemoryHistoryManager.java,8\d\8d7e52b315b2467d7bd6ed571dcf16859550550e
 ]
 -src/ru/yandex/practicum/manager/TaskType.java,c\b\cb016f381f6f4e62b5ae8f0ae65d0a76406b6c14
 i
 9src/ru/yandex/practicum/manager/ManagerSaveException.java,5\0\50fdac00659ab82f4735622314d3a36f79e61ac9
-8
-save.csv,c\a\ca353897e25df9092d1396274593ce989bf4ba69
-]
--src/ru/yandex/practicum/model/tasks/Epic.java,9\8\98458172b24f3017803e01cc0f63cfdf1a2936b5
-]
--src/ru/yandex/practicum/manager/Managers.java,8\6\86e5d37dbdf187f355b0650697b875fec3e647a6
-`
-0src/ru/yandex/practicum/model/tasks/Subtask.java,5\8\585ba8ff84b0019d11255da0c488ce316a7b58a1
+m
+=src/ru/yandex/practicum/manager/ManagerValidateException.java,8\a\8ada7e81d109ddf48fdb94c998f60395cff4eab3
+e
+5src/ru/yandex/practicum/manager/CustomLinkedList.java,1\f\1fa0dc2a8ee65b53bd0b93d34f8aa285f5d5c41e
