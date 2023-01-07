@@ -10,8 +10,6 @@ w
 G.idea/sonarlint/issuestore/d/f/df5dcbbd3f931c7c23855ccec11732ab4c8544f2,c\c\cc1cc97682fc8c64ca34ddbfc67c56f94831fbf9
 w
 G.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d,b\4\b4a0b63ce8560bbc5de0f9995c20cc861dc2adb3
-]
--src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
 Y
 )src/ru/yandex/practicum/model/Status.java,9\f\9f70ff3e95235a5fa4149eb1a1441f12d3c4cd5e
 c
@@ -24,3 +22,7 @@ m
 =src/ru/yandex/practicum/manager/ManagerValidateException.java,8\a\8ada7e81d109ddf48fdb94c998f60395cff4eab3
 e
 5src/ru/yandex/practicum/manager/CustomLinkedList.java,1\f\1fa0dc2a8ee65b53bd0b93d34f8aa285f5d5c41e
+k
+;src/ru/yandex/practicum/manager/InMemoryHistoryManager.java,8\d\8d7e52b315b2467d7bd6ed571dcf16859550550e
+?
+java-kanban.iml,d\f\df5dcbbd3f931c7c23855ccec11732ab4c8544f2

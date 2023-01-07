@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TasksManager {
 
     protected final Comparator<Task> taskComparator = Comparator.comparing(Task::getStartTime);
 
-    protected Set<Task> prioritizedTasks = new TreeSet<>(taskComparator);
+    protected final Set<Task> prioritizedTasks = new TreeSet<>(taskComparator);
 
     private void updateStatus(Epic epic) {
         if (epics.get(epic.getId()) != null) {
@@ -62,12 +62,12 @@ public class InMemoryTaskManager implements TasksManager {
     private void validateTaskPriority() {
         List<Task> tasks = getPrioritizedTasks();
 
-        for (int i = 1; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            boolean taskHasIntersections = task.getStartTime().isBefore(tasks.get(i - 1).getEndTime());
+        for (int taskNum = 1; taskNum < tasks.size(); taskNum++) {
+            Task task = tasks.get(taskNum);
+            boolean taskHasIntersections = task.getStartTime().isBefore(tasks.get(taskNum - 1).getEndTime());
 
             if (taskHasIntersections) {
-                throw new ManagerValidateException("Задачи " + task.getId() + " и " + tasks.get(i - 1) + "пересекаются");
+                throw new ManagerValidateException("Задачи " + task.getId() + " и " + tasks.get(taskNum - 1) + "пересекаются");
             }
         }
     }
@@ -78,32 +78,44 @@ public class InMemoryTaskManager implements TasksManager {
 
     @Override
     public void createTask(Task task) {
+        if (task != null) {
             int taskId = generateId();
             task.setId(taskId);
             addNewPrioritizedTask(task);
             tasks.put(taskId, task);
+        } else {
+            System.out.println(PrintNot.NOT_NULL);
+        }
     }
 
     @Override
     public void createEpic(Epic epic) {
-        int epicId = generateId();
-        epic.setId(epicId);
-        epics.put(epicId, epic);
+        if (epic != null) {
+            int epicId = generateId();
+            epic.setId(epicId);
+            epics.put(epicId, epic);
+        } else {
+            System.out.println(PrintNot.NOT_NULL);
+        }
     }
 
     @Override
     public void createSubtask(Subtask subtask) {
-        int subtaskId = generateId();
-        subtask.setId(subtaskId);
-        Epic epic = epics.get(subtask.getEpicId());
-        if (epic != null) {
-            addNewPrioritizedTask(subtask);
-            subtasks.put(subtaskId, subtask);
-            epic.addSubTaskList(subtaskId);
-            updateStatus(epic);
-            updateTimeEpic(epic);
+        if (subtask != null) {
+            int subtaskId = generateId();
+            subtask.setId(subtaskId);
+            Epic epic = epics.get(subtask.getEpicId());
+            if (epic != null) {
+                addNewPrioritizedTask(subtask);
+                subtasks.put(subtaskId, subtask);
+                epic.addSubTaskList(subtaskId);
+                updateStatus(epic);
+                updateTimeEpic(epic);
+            } else {
+                System.out.println(PrintNot.NOT_SUBTASK);
+            }
         } else {
-            System.out.println(PrintNot.NOT_SUBTASK);
+            System.out.println(PrintNot.NOT_NULL);
         }
     }
 
@@ -237,23 +249,33 @@ public class InMemoryTaskManager implements TasksManager {
 
     @Override
     public void updateTask(Task task) {
-        int idTask = task.getId();
-        if (tasks.get(idTask) != null) {
-            addNewPrioritizedTask(task);
-            tasks.put(idTask, task);
+        if (task != null) {
+            int idTask = task.getId();
+            if (tasks.get(idTask) != null) {
+                prioritizedTasks.remove(task);
+                addNewPrioritizedTask(task);
+                tasks.put(idTask, task);
+            } else {
+                System.out.println(PrintNot.NOT_TASK);
+            }
         } else {
-            System.out.println(PrintNot.NOT_TASK);
+            System.out.println(PrintNot.NOT_NULL);
         }
+
     }
 
     @Override
     public void updateEpic(Epic epic) {
-        if (epics.get(epic.getId()) != null) {
-            epics.put(epic.getId(), epic);
-            updateStatus(epic);
-            updateTimeEpic(epic);
+        if (epic != null) {
+            if (epics.get(epic.getId()) != null) {
+                epics.put(epic.getId(), epic);
+                updateStatus(epic);
+                updateTimeEpic(epic);
+            } else {
+                System.out.println(PrintNot.NOT_EPIC);
+            }
         } else {
-            System.out.println(PrintNot.NOT_EPIC);
+            System.out.println(PrintNot.NOT_NULL);
         }
     }
 
@@ -271,22 +293,27 @@ public class InMemoryTaskManager implements TasksManager {
             }
         }
 
-        long duration = (endTime.toEpochMilli() - startTime.toEpochMilli());
-        epic.setDuration(duration);
         epic.setStartTime(startTime);
         epic.setEndTime(endTime);
+        long duration = (endTime.toEpochMilli() - startTime.toEpochMilli());
+        epic.setDuration(duration);
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        if (subtasks.get(subtask.getId()) != null) {
-            addNewPrioritizedTask(subtask);
-            subtasks.put(subtask.getId(), subtask);
-            Epic epic = epics.get(subtask.getEpicId());
-            updateStatus(epic);
-            updateTimeEpic(epic);
+        if (subtask != null) {
+            if (subtasks.get(subtask.getId()) != null) {
+                prioritizedTasks.remove(subtask);
+                addNewPrioritizedTask(subtask);
+                subtasks.put(subtask.getId(), subtask);
+                Epic epic = epics.get(subtask.getEpicId());
+                updateStatus(epic);
+                updateTimeEpic(epic);
+            } else {
+                System.out.println(PrintNot.NOT_SUBTASK);
+            }
         } else {
-            System.out.println(PrintNot.NOT_SUBTASK);
+            System.out.println(PrintNot.NOT_NULL);
         }
     }
 

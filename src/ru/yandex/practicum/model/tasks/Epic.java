@@ -1,6 +1,6 @@
 package ru.yandex.practicum.model.tasks;
 
-import ru.yandex.practicum.manager.TaskType;
+import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.time.Instant;
@@ -39,12 +39,12 @@ public class Epic extends Task {
         subTaskList.remove(id);
     }
 
-    public void setEndTime (Instant endTime) {
-        this.endTime=endTime;
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
     }
 
     @Override
-    public  Instant getEndTime(){
+    public Instant getEndTime() {
         return endTime;
     }
 

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.manager.FileBackedTasksManager;
 import ru.yandex.practicum.manager.InMemoryTaskManager;
-import ru.yandex.practicum.tests.TasksManagerTest;
 import ru.yandex.practicum.model.Status;
 import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.tasks.Task;
@@ -21,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest extends TasksManagerTest<InMemoryTaskManager> {
-    Path path = Path.of("save_test.csv");
+   private static final Path path = Path.of("save_test.csv");
     File file = new File(String.valueOf(path));
 
     @BeforeEach

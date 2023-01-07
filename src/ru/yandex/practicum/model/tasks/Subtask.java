@@ -1,6 +1,6 @@
 package ru.yandex.practicum.model.tasks;
 
-import ru.yandex.practicum.manager.TaskType;
+import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.time.Instant;

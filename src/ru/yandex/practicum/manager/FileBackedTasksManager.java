@@ -1,6 +1,7 @@
 package ru.yandex.practicum.manager;
 
 import ru.yandex.practicum.model.Status;
+import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.tasks.Subtask;
 import ru.yandex.practicum.model.tasks.Task;
@@ -28,7 +29,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 task.getName() + "," +
                 task.getStatus() + "," +
                 task.getDescription() + "," +
-                task.getEpicId()+ "," +
+                task.getEpicId() + "," +
                 task.getStartTime() + "," +
                 task.getEndTime() + "," +
                 task.getDuration();
@@ -52,7 +53,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 return epic;
             case SUBTASK:
                 int epicNumber = 0;
-                if (elem.length == 9) {
+                if (elem[5] != null) {
                     epicNumber = Integer.parseInt(elem[5]);
                 }
                 Subtask subtask = new Subtask(name, description, status, epicNumber, startTime, duration);

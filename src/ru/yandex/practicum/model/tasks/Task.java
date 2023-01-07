@@ -1,11 +1,9 @@
 package ru.yandex.practicum.model.tasks;
 
-import ru.yandex.practicum.manager.TaskType;
+import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.util.Objects;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.Instant;
 
 public class Task {
@@ -31,7 +29,6 @@ public class Task {
         this.startTime = startTime;
         this.duration = duration;
         this.taskType = TaskType.TASK;
-        ;
     }
 
     public int getId() {

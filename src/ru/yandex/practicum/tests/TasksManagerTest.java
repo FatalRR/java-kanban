@@ -32,7 +32,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
-    public void shouldCreateTask(){
+    public void shouldCreateTask() {
         Task task = createTask();
         taskManager.createTask(task);
         List<Task> tasks = taskManager.getAllTasks();
@@ -64,6 +64,64 @@ abstract class TasksManagerTest<T extends TasksManager> {
         assertEquals(Status.NEW, subtask.getStatus());
         assertEquals(List.of(subtask), subtasks);
         assertEquals(List.of(subtask.getId()), epic.getSubTaskList());
+    }
+
+    @Test
+    void shouldCreateNullTask() {
+        Task task = null;
+        taskManager.createTask(task);
+        assertEquals(0, taskManager.getAllTasks().size());
+    }
+
+    @Test
+    void shouldCreateNullEpic() {
+        Epic epic = null;
+        taskManager.createEpic(epic);
+        assertEquals(0, taskManager.getAllEpic().size());
+    }
+
+    @Test
+    public void shouldNotUpdateTaskIfNull() {
+        Task task = createTask();
+        taskManager.createTask(task);
+        taskManager.updateTask(null);
+        assertEquals(task, taskManager.getTaskById(task.getId()));
+    }
+
+    @Test
+    public void shouldNotUpdateEpicIfNull() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        taskManager.updateEpic(null);
+        assertEquals(epic, taskManager.getEpicById(epic.getId()));
+    }
+
+    @Test
+    public void shouldNotUpdateSubtaskIfNull() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtask(epic);
+        taskManager.createSubtask(subtask);
+        taskManager.updateSubtask(null);
+        assertEquals(subtask, taskManager.getSubtaskById(subtask.getId()));
+    }
+
+    @Test
+    void shouldCreateNullSubtask() {
+        Subtask subtask = null;
+        taskManager.createSubtask(subtask);
+        assertEquals(0, taskManager.getAllSubtasks().size());
+    }
+
+    @Test
+    public void shouldUpdateEpicStatusByUpdateSubtaskStatus() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtask(epic);
+        taskManager.createSubtask(subtask);
+        subtask.setStatus(Status.DONE);
+        taskManager.updateEpic(epic);
+        assertEquals(Status.DONE, taskManager.getEpicById(epic.getId()).getStatus());
     }
 
     @Test
@@ -195,21 +253,21 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
-    public void shouldDoNothingIfTaskHashMapIsEmpty(){
+    public void shouldDoNothingIfTaskHashMapIsEmpty() {
         taskManager.deleteAllTasks();
         taskManager.deleteTaskById(1);
         assertEquals(0, taskManager.getAllTasks().size());
     }
 
     @Test
-    public void shouldDoNothingIfEpicHashMapIsEmpty(){
+    public void shouldDoNothingIfEpicHashMapIsEmpty() {
         taskManager.deleteAllEpics();
         taskManager.deleteEpicById(1);
         assertTrue(taskManager.getAllEpic().isEmpty());
     }
 
     @Test
-    public void shouldDoNothingIfSubtaskHashMapIsEmpty(){
+    public void shouldDoNothingIfSubtaskHashMapIsEmpty() {
         taskManager.deleteAllEpics();
         taskManager.deleteSubtaskById(1);
         assertEquals(0, taskManager.getAllSubtasks().size());
