@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         String name = elem[2];
         String description = elem[4];
         Status status = Status.valueOf(elem[3].toUpperCase());
-        Instant startTime = Instant.parse(elem[6]);
+        LocalDateTime startTime = LocalDateTime.parse(elem[6]);
         long duration = Long.parseLong(elem[8]);
 
         switch (TaskType.valueOf(elem[1])) {

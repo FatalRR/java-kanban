@@ -6,6 +6,7 @@ import ru.yandex.practicum.model.tasks.Subtask;
 import ru.yandex.practicum.model.tasks.Task;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -281,8 +282,8 @@ public class InMemoryTaskManager implements TasksManager {
 
     public void updateTimeEpic(Epic epic) {
         List<Subtask> subtasks = getAllSubtasksByEpic(epic.getId());
-        Instant startTime = subtasks.get(0).getStartTime();
-        Instant endTime = subtasks.get(0).getEndTime();
+        LocalDateTime startTime = subtasks.get(0).getStartTime();
+        LocalDateTime endTime = subtasks.get(0).getEndTime();
         long durationCount = 0;
         for (Subtask subtask : subtasks) {
             if (subtask.getStartTime().isBefore(startTime)) {

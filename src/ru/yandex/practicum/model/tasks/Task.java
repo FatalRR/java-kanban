@@ -3,15 +3,15 @@ package ru.yandex.practicum.model.tasks;
 import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
-import java.time.Instant;
 
 public class Task {
     private int id;
     private final String name;
     private final String description;
     private Status status;
-    private Instant startTime;
+    private LocalDateTime startTime;
     private long duration;
     protected TaskType taskType;
 
@@ -22,7 +22,7 @@ public class Task {
         this.taskType = TaskType.TASK;
     }
 
-    public Task(String name, String description, Status status, Instant startTime, long duration) {
+    public Task(String name, String description, Status status, LocalDateTime startTime, long duration) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -63,11 +63,11 @@ public class Task {
         return null;
     }
 
-    public Instant getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Instant startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
@@ -79,7 +79,7 @@ public class Task {
         this.duration = duration;
     }
 
-    public Instant getEndTime() {
+    public LocalDateTime getEndTime() {
         return startTime.plusSeconds(duration * 60);
     }
 
@@ -91,8 +91,8 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", taskType=" + taskType +
-                ", startTime=" + startTime.toEpochMilli() + '\'' +
-                ", entTime=" + getEndTime().toEpochMilli() + '\'' +
+                ", startTime=" + startTime + '\'' +
+                ", entTime=" + getEndTime() + '\'' +
                 ", duration=" + duration +
                 '}';
     }

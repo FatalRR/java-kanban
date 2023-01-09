@@ -6,6 +6,7 @@ import ru.yandex.practicum.model.Status;
 import ru.yandex.practicum.model.tasks.Task;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,7 @@ class InMemoryHistoryManagerTest {
     }
 
     private Task createTask() {
-        return new Task("новая задача 1", "описание задачи 1", Status.NEW, Instant.now(), 0);
+        return new Task("новая задача 1", "описание задачи 1", Status.NEW, LocalDateTime.now(), 0);
     }
 
     @BeforeEach

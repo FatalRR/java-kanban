@@ -4,6 +4,7 @@ import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -15,7 +16,7 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    public Subtask(String name, String description, Status status, int epicId, Instant startTime, long duration) {
+    public Subtask(String name, String description, Status status, int epicId, LocalDateTime startTime, long duration) {
         super(name, description, status, startTime, duration);
         this.taskType = TaskType.SUBTASK;
         this.epicId = epicId;
@@ -50,8 +51,8 @@ public class Subtask extends Task {
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
                 ", taskType=" + getTaskType() +
-                ", startTime='" + getStartTime().toEpochMilli() + '\'' +
-                ", endTime='" + getEndTime().toEpochMilli() + '\'' +
+                ", startTime='" + getStartTime() + '\'' +
+                ", endTime='" + getEndTime() + '\'' +
                 ", duration='" + getDuration() +
                 '}';
     }

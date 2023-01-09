@@ -4,20 +4,21 @@ import ru.yandex.practicum.model.TaskType;
 import ru.yandex.practicum.model.Status;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     private final ArrayList<Integer> subTaskList = new ArrayList<>();
-    private Instant endTime;
+    private LocalDateTime endTime;
 
     public Epic(String name, String description, Status status) {
         super(name, description, status);
         this.taskType = TaskType.EPIC;
     }
 
-    public Epic(String name, String description, Status status, Instant startTime, long duration) {
+    public Epic(String name, String description, Status status, LocalDateTime startTime, long duration) {
         super(name, description, status, startTime, duration);
         this.taskType = TaskType.EPIC;
         this.endTime = super.getEndTime();
@@ -39,12 +40,12 @@ public class Epic extends Task {
         subTaskList.remove(id);
     }
 
-    public void setEndTime(Instant endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
     @Override
-    public Instant getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
@@ -76,8 +77,8 @@ public class Epic extends Task {
                 ", name='" + getName() + '\'' +
                 ", status=" + getStatus() +
                 ", taskType=" + getTaskType() +
-                ", startTime=" + getStartTime().toEpochMilli() + '\'' +
-                ", endTime=" + getEndTime().toEpochMilli() + '\'' +
+                ", startTime=" + getStartTime() + '\'' +
+                ", endTime=" + getEndTime() + '\'' +
                 ", duration=" + getDuration() +
                 '}';
     }

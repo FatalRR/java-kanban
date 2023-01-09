@@ -26,11 +26,11 @@ k
 java-kanban.iml,d\f\df5dcbbd3f931c7c23855ccec11732ab4c8544f2
 a
 1src/ru/yandex/practicum/manager/TasksManager.java,9\6\967158af2c9562be03d1ddb5a209835f94a99d0f
-k
-;src/ru/yandex/practicum/manager/FileBackedTasksManager.java,4\1\410a908182a7476c3f817b1103efc98186aa8e0a
 ]
 -src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
 [
 +src/ru/yandex/practicum/model/TaskType.java,7\2\7216cee7ce640be2da3d7f48f32734ef77a7f6cf
 ]
 -src/ru/yandex/practicum/manager/Managers.java,8\6\86e5d37dbdf187f355b0650697b875fec3e647a6
+j
+:src/ru/yandex/practicum/tests/InMemoryTaskManagerTest.java,4\6\46db53291cbbcf94d3699040607ac609f780f51a

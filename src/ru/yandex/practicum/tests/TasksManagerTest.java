@@ -9,6 +9,7 @@ import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.tasks.Subtask;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,27 +19,27 @@ abstract class TasksManagerTest<T extends TasksManager> {
     protected T taskManager;
 
     protected Task createTask() {
-        return new Task("новая задача 1", "описание задачи 1", Status.NEW, Instant.now(), 0);
+        return new Task("новая задача 1", "описание задачи 1", Status.NEW, LocalDateTime.now(), 0);
     }
 
     protected Epic createEpic() {
         return new Epic("новый эпик 1", "описание эпика 1", Status.NEW,
-                Instant.now(), 0);
+                LocalDateTime.now(), 0);
     }
 
     protected Subtask createSubtaskWithStatusNew(Epic epic) {
         return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.NEW, epic.getId(),
-                Instant.now(), 0);
+                LocalDateTime.now(), 0);
     }
 
     protected Subtask createSubtaskWithStatusDone(Epic epic) {
         return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.DONE, epic.getId(),
-                Instant.now(), 0);
+                LocalDateTime.now(), 0);
     }
 
     protected Subtask createSubtaskWithStatusInProgress(Epic epic) {
         return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.IN_PROGRESS, epic.getId(),
-                Instant.now(), 0);
+                LocalDateTime.now(), 0);
     }
 
     @Test
