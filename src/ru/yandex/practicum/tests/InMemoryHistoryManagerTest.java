@@ -41,7 +41,29 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void shouldRemoveTask() {
+    public void shouldAddTasksToHistory() {
+        Task task = createTask();
+        task.setId(generateId());
+        Task task1 = createTask();
+        task1.setId(generateId());
+        Task task2 = createTask();
+        task2.setId(generateId());
+        historyManager.add(task);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        final List<Task> history = historyManager.getTaskHistory();
+        assertNotNull(history, NOT_NULL);
+        assertEquals(1,task.getId());
+        assertEquals(2,task1.getId());
+        assertEquals(3,task2.getId());
+        assertEquals(3, history.size(), NOT_NULL);
+        assertNotEquals(task,task1);
+        assertNotEquals(task1,task2);
+        assertNotEquals(task,task2);
+    }
+
+    @Test
+    public void shouldRemoveMiddleTask() {
         Task task = createTask();
         task.setId(generateId());
         Task task1 = createTask();
@@ -55,6 +77,52 @@ class InMemoryHistoryManagerTest {
         final List<Task> history = historyManager.getTaskHistory();
         assertNotNull(history, NOT_NULL);
         assertEquals(2, history.size(), NOT_NULL);
+        assertEquals(1,task.getId());
+        assertEquals(3,task2.getId());
+        assertEquals(history.get(0),task);
+        assertEquals(history.get(1),task2);
+    }
+
+    @Test
+    public void shouldRemoveFirstTask() {
+        Task task = createTask();
+        task.setId(generateId());
+        Task task1 = createTask();
+        task1.setId(generateId());
+        Task task2 = createTask();
+        task2.setId(generateId());
+        historyManager.add(task);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.remove(task.getId());
+        final List<Task> history = historyManager.getTaskHistory();
+        assertNotNull(history, NOT_NULL);
+        assertEquals(2, history.size(), NOT_NULL);
+        assertEquals(2,task1.getId());
+        assertEquals(3,task2.getId());
+        assertEquals(history.get(0),task1);
+        assertEquals(history.get(1),task2);
+    }
+
+    @Test
+    public void shouldRemoveLastTask() {
+        Task task = createTask();
+        task.setId(generateId());
+        Task task1 = createTask();
+        task1.setId(generateId());
+        Task task2 = createTask();
+        task2.setId(generateId());
+        historyManager.add(task);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.remove(task2.getId());
+        final List<Task> history = historyManager.getTaskHistory();
+        assertNotNull(history, NOT_NULL);
+        assertEquals(2, history.size(), NOT_NULL);
+        assertEquals(2,task1.getId());
+        assertEquals(1,task.getId());
+        assertEquals(history.get(0),task);
+        assertEquals(history.get(1),task1);
     }
 
     @Test

@@ -283,7 +283,7 @@ public class InMemoryTaskManager implements TasksManager {
         List<Subtask> subtasks = getAllSubtasksByEpic(epic.getId());
         Instant startTime = subtasks.get(0).getStartTime();
         Instant endTime = subtasks.get(0).getEndTime();
-
+        long durationCount = 0;
         for (Subtask subtask : subtasks) {
             if (subtask.getStartTime().isBefore(startTime)) {
                 startTime = subtask.getStartTime();
@@ -291,16 +291,17 @@ public class InMemoryTaskManager implements TasksManager {
             if (subtask.getEndTime().isAfter(endTime)) {
                 endTime = subtask.getEndTime();
             }
+                durationCount += subtask.getDuration();
         }
 
         epic.setStartTime(startTime);
         epic.setEndTime(endTime);
-        long duration = (endTime.toEpochMilli() - startTime.toEpochMilli());
-        epic.setDuration(duration);
+        epic.setDuration(durationCount);
     }
 
     @Override
-    public void updateSubtask(Subtask subtask) {
+    public void updateSubtask(Subtask subtask)
+    {
         if (subtask != null) {
             if (subtasks.get(subtask.getId()) != null) {
                 prioritizedTasks.remove(subtask);

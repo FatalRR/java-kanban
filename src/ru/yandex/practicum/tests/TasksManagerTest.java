@@ -26,8 +26,18 @@ abstract class TasksManagerTest<T extends TasksManager> {
                 Instant.now(), 0);
     }
 
-    protected Subtask createSubtask(Epic epic) {
+    protected Subtask createSubtaskWithStatusNew(Epic epic) {
         return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.NEW, epic.getId(),
+                Instant.now(), 0);
+    }
+
+    protected Subtask createSubtaskWithStatusDone(Epic epic) {
+        return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.DONE, epic.getId(),
+                Instant.now(), 0);
+    }
+
+    protected Subtask createSubtaskWithStatusInProgress(Epic epic) {
+        return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.IN_PROGRESS, epic.getId(),
                 Instant.now(), 0);
     }
 
@@ -53,10 +63,62 @@ abstract class TasksManagerTest<T extends TasksManager> {
     }
 
     @Test
+    public void shouldCreateSubtasksWithStatusNew() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
+        Subtask subtask1 = createSubtaskWithStatusNew(epic);
+        Subtask subtask2 = createSubtaskWithStatusNew(epic);
+        taskManager.createSubtask(subtask);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        assertEquals(Status.NEW,epic.getStatus());
+    }
+
+    @Test
+    public void shouldCreateSubtasksWithStatusDone() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtaskWithStatusDone(epic);
+        Subtask subtask1 = createSubtaskWithStatusDone(epic);
+        Subtask subtask2 = createSubtaskWithStatusDone(epic);
+        taskManager.createSubtask(subtask);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        assertEquals(Status.DONE,epic.getStatus());
+    }
+
+    @Test
+    public void shouldCreateSubtasksWithStatusInProgress() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtaskWithStatusInProgress(epic);
+        Subtask subtask1 = createSubtaskWithStatusInProgress(epic);
+        Subtask subtask2 = createSubtaskWithStatusInProgress(epic);
+        taskManager.createSubtask(subtask);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        assertEquals(Status.IN_PROGRESS,epic.getStatus());
+    }
+
+    @Test
+    public void shouldCreateSubtasksWithDifferentStatus() {
+        Epic epic = createEpic();
+        taskManager.createEpic(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
+        Subtask subtask1 = createSubtaskWithStatusDone(epic);
+        Subtask subtask2 = createSubtaskWithStatusInProgress(epic);
+        taskManager.createSubtask(subtask);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        assertEquals(Status.IN_PROGRESS,epic.getStatus());
+    }
+
+    @Test
     public void shouldCreateSubtask() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         List<Subtask> subtasks = taskManager.getAllSubtasks();
         assertNotNull(subtask.getStatus());
@@ -100,7 +162,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldNotUpdateSubtaskIfNull() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         taskManager.updateSubtask(null);
         assertEquals(subtask, taskManager.getSubtaskById(subtask.getId()));
@@ -117,7 +179,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldUpdateEpicStatusByUpdateSubtaskStatus() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         subtask.setStatus(Status.DONE);
         taskManager.updateEpic(epic);
@@ -145,7 +207,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldUpdateSubtaskStatusToInProgress() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         subtask.setStatus(Status.IN_PROGRESS);
         taskManager.updateSubtask(subtask);
@@ -174,7 +236,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldUpdateSubtaskStatusToInDone() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         subtask.setStatus(Status.DONE);
         taskManager.updateSubtask(subtask);
@@ -202,7 +264,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldDeleteAllSubtasks() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         taskManager.deleteAllSubtasks();
         assertTrue(epic.getSubTaskList().isEmpty());
@@ -245,7 +307,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldNotDeleteSubtaskIfBadId() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         taskManager.deleteSubtaskById(3);
         assertEquals(List.of(subtask), taskManager.getAllSubtasks());
@@ -305,7 +367,7 @@ abstract class TasksManagerTest<T extends TasksManager> {
     public void shouldReturnHistoryWithTasks() {
         Epic epic = createEpic();
         taskManager.createEpic(epic);
-        Subtask subtask = createSubtask(epic);
+        Subtask subtask = createSubtaskWithStatusNew(epic);
         taskManager.createSubtask(subtask);
         taskManager.getEpicById(epic.getId());
         taskManager.getSubtaskById(subtask.getId());

@@ -14,8 +14,6 @@ Y
 )src/ru/yandex/practicum/model/Status.java,9\f\9f70ff3e95235a5fa4149eb1a1441f12d3c4cd5e
 c
 3src/ru/yandex/practicum/manager/HistoryManager.java,1\9\1917a27bad6a99d449376748c01271a8b0ae6b09
-]
--src/ru/yandex/practicum/manager/TaskType.java,c\b\cb016f381f6f4e62b5ae8f0ae65d0a76406b6c14
 i
 9src/ru/yandex/practicum/manager/ManagerSaveException.java,5\0\50fdac00659ab82f4735622314d3a36f79e61ac9
 m
@@ -26,3 +24,13 @@ k
 ;src/ru/yandex/practicum/manager/InMemoryHistoryManager.java,8\d\8d7e52b315b2467d7bd6ed571dcf16859550550e
 ?
 java-kanban.iml,d\f\df5dcbbd3f931c7c23855ccec11732ab4c8544f2
+a
+1src/ru/yandex/practicum/manager/TasksManager.java,9\6\967158af2c9562be03d1ddb5a209835f94a99d0f
+k
+;src/ru/yandex/practicum/manager/FileBackedTasksManager.java,4\1\410a908182a7476c3f817b1103efc98186aa8e0a
+]
+-src/ru/yandex/practicum/manager/PrintNot.java,d\f\df144869aeb00b90cc5a1b8f8071c4d6f0a0e00b
+[
++src/ru/yandex/practicum/model/TaskType.java,7\2\7216cee7ce640be2da3d7f48f32734ef77a7f6cf
+]
+-src/ru/yandex/practicum/manager/Managers.java,8\6\86e5d37dbdf187f355b0650697b875fec3e647a6

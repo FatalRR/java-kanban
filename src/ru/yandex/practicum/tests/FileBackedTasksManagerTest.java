@@ -20,8 +20,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest extends TasksManagerTest<InMemoryTaskManager> {
-   private static final Path path = Path.of("save_test.csv");
-    File file = new File(String.valueOf(path));
+    private static final Path path = Path.of("save_test.csv");
+    private static final File file = new File(String.valueOf(path));
 
     @BeforeEach
     public void beforeEach() {
