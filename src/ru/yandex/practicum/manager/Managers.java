@@ -1,11 +1,14 @@
 package ru.yandex.practicum.manager;
 
-import java.io.File;
+import ru.yandex.practicum.server.HttpTaskManager;
+import ru.yandex.practicum.server.KVServer;
+
+import java.io.IOException;
 
 public class Managers {
 
-    public static TasksManager getDefault() {
-        return new FileBackedTasksManager(new File("save.csv"));
+    public static TasksManager getDefault() throws IOException, InterruptedException {
+        return new HttpTaskManager("http://localhost:" + KVServer.PORT);
     }
 
     public static HistoryManager getDefaultHistory() {

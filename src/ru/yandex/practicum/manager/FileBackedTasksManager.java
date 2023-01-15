@@ -9,7 +9,6 @@ import ru.yandex.practicum.model.tasks.Task;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,15 +68,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void addTask(Task task) {
+    protected void addTask(Task task) {
         super.createTask(task);
     }
 
-    private void addEpic(Epic epic) {
+    protected void addEpic(Epic epic) {
         super.createEpic(epic);
     }
 
-    private void addSubtask(Subtask subtask) {
+    protected void addSubtask(Subtask subtask) {
         super.createSubtask(subtask);
     }
 

@@ -5,10 +5,8 @@ import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.tasks.Subtask;
 import ru.yandex.practicum.model.tasks.Task;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TasksManager {
     private int id = 1;
@@ -73,6 +71,7 @@ public class InMemoryTaskManager implements TasksManager {
         }
     }
 
+    @Override
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
     }
@@ -139,7 +138,7 @@ public class InMemoryTaskManager implements TasksManager {
         clearHistorySubtask();
         subtasks.clear();
         for (Epic epic : epics.values()) {
-            prioritizedTasks.remove(epic); // check
+            prioritizedTasks.remove(epic);
             epic.clearSubTaskList();
             epic.setStatus(Status.NEW);
         }
@@ -262,7 +261,6 @@ public class InMemoryTaskManager implements TasksManager {
         } else {
             System.out.println(PrintNot.NOT_NULL);
         }
-
     }
 
     @Override
