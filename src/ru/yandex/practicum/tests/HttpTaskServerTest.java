@@ -33,12 +33,12 @@ class HttpTaskServerTest {
 
     protected Epic createEpic() {
         return new Epic("новый эпик 1", "описание эпика 1", Status.NEW,
-                LocalDateTime.now(), 0);
+                LocalDateTime.of(2023,1,1,12,1), 0);
     }
 
     protected Subtask createSubtask(Epic epic) {
         return new Subtask("новая подзадача 1", "описание подзадачи 1", Status.NEW, epic.getId(),
-                LocalDateTime.now(), 0);
+                LocalDateTime.of(2023,1,1,12,2), 0);
     }
 
     @BeforeAll
@@ -90,32 +90,6 @@ class HttpTaskServerTest {
 
     @Test
     void shouldGetTasks() {
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(TASK_URL);
-        Task task = createTask();
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(task)))
-                .build();
-
-
-        try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
-            assertEquals("\"[{\\\"id\\\":1,\\\"name\\\":\\\"новая задача 1\\\",\\\"description\\\":\\\"описание задачи 1\\\",\\\"status\\\":\\\"NEW\\\",\\\"startTime\\\":\\\"2023-01-01T12:00\\\",\\\"duration\\\":0,\\\"taskType\\\":\\\"TASK\\\"}]\"", response.body());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void shouldGetTasks2() {
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create(TASK_URL);
         Task task = createTask();
