@@ -36,9 +36,7 @@ public class EpicHandler implements HttpHandler {
                 String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
                     statusCode = 200;
-                    String jsonString = gson.toJson(tasksManager.getAllEpic());
-                    System.out.println("GET EPICS: " + jsonString);
-                    response = gson.toJson(jsonString);
+                    response = gson.toJson(tasksManager.getAllEpic());
                 } else {
                     try {
                         int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));

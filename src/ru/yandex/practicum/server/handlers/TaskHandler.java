@@ -6,7 +6,6 @@ import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import ru.yandex.practicum.adapters.LocalDateTimeAdapter;
-import ru.yandex.practicum.manager.Managers;
 import ru.yandex.practicum.manager.TasksManager;
 import ru.yandex.practicum.model.tasks.Task;
 
@@ -15,6 +14,9 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class TaskHandler implements HttpHandler {
@@ -31,18 +33,13 @@ public class TaskHandler implements HttpHandler {
         int statusCode;
         String response;
         String method = httpExchange.getRequestMethod();
-        String path = String.valueOf(httpExchange.getRequestURI());
-
-        System.out.println("Обрабатывается запрос " + path + " с методом " + method);
 
         switch (method) {
             case "GET":
                 String query = httpExchange.getRequestURI().getQuery();
                 if (query == null) {
                     statusCode = 200;
-                    String jsonString = gson.toJson(tasksManager.getAllTasks());
-                    System.out.println("GET TASKS: " + jsonString);
-                    response = gson.toJson(jsonString);
+                    response = gson.toJson(tasksManager.getAllTasks());
                 } else {
                     try {
                         int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));
@@ -67,6 +64,7 @@ public class TaskHandler implements HttpHandler {
                 try {
                     Task task = gson.fromJson(bodyRequest, Task.class);
                     int id = task.getId();
+
                     if (tasksManager.getTaskById(id) != null) {
                         tasksManager.updateTask(task);
                         statusCode = 201;
@@ -91,7 +89,7 @@ public class TaskHandler implements HttpHandler {
                     statusCode = 200;
                 } else {
                     try {
-                        int id = Integer.parseInt(query.substring(query.indexOf("id=")));
+                        int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));
                         tasksManager.deleteTaskById(id);
                         statusCode = 200;
                     } catch (StringIndexOutOfBoundsException e) {

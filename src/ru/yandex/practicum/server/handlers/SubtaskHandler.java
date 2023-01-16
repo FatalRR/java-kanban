@@ -65,8 +65,7 @@ public class SubtaskHandler implements HttpHandler {
                         tasksManager.updateTask(subtask);
                         statusCode = 200;
                         response = "Подзадача с id=" + id + " обновлена";
-                    }
-                    else {
+                    } else {
                         System.out.println("CREATED");
                         tasksManager.createSubtask(subtask);
                         System.out.println("CREATED SUBTASK: " + subtask);
@@ -87,7 +86,7 @@ public class SubtaskHandler implements HttpHandler {
                     statusCode = 200;
                 } else {
                     try {
-                        int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));
+                        int id = Integer.parseInt(query.substring(query.indexOf("id=")));
                         tasksManager.deleteSubtaskById(id);
                         statusCode = 200;
                     } catch (StringIndexOutOfBoundsException e) {

@@ -10,24 +10,26 @@ public class CustomLinkedList {
     private Node tail;
 
     void linkLast(Task task) {
-        Node elem = new Node();
-        elem.task = task;
-        elem.prev = tail;
+        if (task != null) {
+            Node elem = new Node();
+            elem.task = task;
+            elem.prev = tail;
 
-        if (history.containsKey(task.getId())) {
-            removeNode(history.get(task.getId()));
+            if (history.containsKey(task.getId())) {
+                removeNode(history.get(task.getId()));
+            }
+
+            if (head == null) {
+                head = elem;
+            } else {
+                tail.next = elem;
+            }
+
+            tail = elem;
+            elem.next = null;
+
+            history.put(task.getId(), elem);
         }
-
-        if (head == null) {
-            head = elem;
-        } else {
-            tail.next = elem;
-        }
-
-        tail = elem;
-        elem.next = null;
-
-        history.put(task.getId(), elem);
     }
 
     List<Task> getTasks() {
