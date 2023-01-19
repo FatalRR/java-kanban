@@ -11,13 +11,12 @@ import ru.yandex.practicum.model.tasks.Subtask;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 public class SubtaskHandler implements HttpHandler {
     private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final TasksManager tasksManager;
 
     public SubtaskHandler(TasksManager tasksManager) {
@@ -29,13 +28,13 @@ public class SubtaskHandler implements HttpHandler {
         int statusCode;
         String response;
 
-        String method = exchange.getRequestMethod();
+        QueriesType method = QueriesType.fromValue(exchange.getRequestMethod());
 
         switch (method) {
-            case "GET":
+            case GET:
                 String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                     response = gson.toJson(tasksManager.getAllSubtasks());
                 } else {
                     try {
@@ -46,64 +45,64 @@ public class SubtaskHandler implements HttpHandler {
                         } else {
                             response = "Подзадача с данным id не найдена";
                         }
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
-            case "POST":
+            case POST:
                 String bodyRequest = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                 try {
                     Subtask subtask = gson.fromJson(bodyRequest, Subtask.class);
                     int id = subtask.getId();
                     if (tasksManager.getSubtaskById(id) != null) {
                         tasksManager.updateTask(subtask);
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                         response = "Подзадача с id=" + id + " обновлена";
                     } else {
                         System.out.println("CREATED");
                         tasksManager.createSubtask(subtask);
                         System.out.println("CREATED SUBTASK: " + subtask);
                         int idCreated = subtask.getId();
-                        statusCode = 201;
+                        statusCode = HttpURLConnection.HTTP_CREATED;
                         response = "Создана подзадача с id=" + idCreated;
                     }
                 } catch (JsonSyntaxException e) {
                     response = "Неверный формат запроса";
-                    statusCode = 400;
+                    statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                 }
                 break;
-            case "DELETE":
+            case DELETE:
                 response = "";
                 query = exchange.getRequestURI().getQuery();
                 if (query == null) {
                     tasksManager.deleteAllSubtasks();
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                 } else {
                     try {
                         int id = Integer.parseInt(query.substring(query.indexOf("id=")));
                         tasksManager.deleteSubtaskById(id);
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
             default:
-                statusCode = 400;
+                statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                 response = "Некорректный запрос";
         }
 
-        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + DEFAULT_CHARSET);
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(statusCode, 0);
 
         try (OutputStream os = exchange.getResponseBody()) {

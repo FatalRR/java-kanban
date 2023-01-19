@@ -1,0 +1,15 @@
+
+T
+java:S15969">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(ïŸ•ñ
+T
+java:S1596:">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(õ°ÝÒ
+T
+java:S1596;">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(¡šõ¥
+Y
+java:S1596C">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(Ú‚”‹ýÿÿÿÿ
+K
+java:S22098"5Change this instance-reference to a static reference.(ÉÅ•Ü
+K
+java:S2209B"5Change this instance-reference to a static reference.(ÉÅ•Ü
+I
+java:S1128".Remove this unused import 'java.time.Instant'.(Â‚éñÿÿÿÿÿ

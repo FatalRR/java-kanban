@@ -1,0 +1,19 @@
+
+{
+java:S1192"`Define a constant instead of duplicating this literal "Ð½Ð¾Ð²Ð°Ñ Ð¿Ð¾Ð´Ð·Ð°Ð´Ð°Ñ‡Ð° 1" 3 times.(Õ‡êâùÿÿÿÿ
+
+java:S1192"fDefine a constant instead of duplicating this literal "Ð¾Ð¿Ð¸ÑÐ°Ð½Ð¸Ðµ Ð¿Ð¾Ð´Ð·Ð°Ð´Ð°Ñ‡Ð¸ 1" 3 times.(Õ‡êâùÿÿÿÿ
+Y
+java:S1596>">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(¡áÇ–üÿÿÿÿ
+U
+java:S1596ý">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(ïŸ•ñ
+U
+java:S1596…">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(õ°ÝÒ
+U
+java:S1596˜">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(ïŸ•ñ
+U
+java:S1596 ">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(õ°ÝÒ
+Z
+java:S1596ì">Replace "Collections.EMPTY_LIST" by "Collections.emptyList()".(Ú‚”‹ýÿÿÿÿ
+I
+java:S1128".Remove this unused import 'java.time.Instant'.(Â‚éñÿÿÿÿÿ

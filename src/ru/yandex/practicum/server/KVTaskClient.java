@@ -1,6 +1,7 @@
 package ru.yandex.practicum.server;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,12 +9,14 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 public class KVTaskClient {
-    private final String apiToken;
+    private String apiToken;
     private final String serverURL;
 
-    public KVTaskClient(String serverURL) throws IOException, InterruptedException {
+    public KVTaskClient(String serverURL) {
         this.serverURL = serverURL;
+    }
 
+    public void register() {
         URI uri = URI.create(this.serverURL + "/register");
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -23,11 +26,22 @@ public class KVTaskClient {
                 .build();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString()
-        );
-        apiToken = response.body();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString()
+            );
+
+            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
+                apiToken = response.body();
+            } else {
+                apiToken = String.valueOf(HttpURLConnection.HTTP_BAD_REQUEST);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
 
     public void put(String key, String json) {
         URI uri = URI.create(this.serverURL + "/save/" + key + "?API_TOKEN=" + apiToken);
@@ -43,7 +57,7 @@ public class KVTaskClient {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)
             );
-            if (response.statusCode() != 200) {
+            if (response.statusCode() != HttpURLConnection.HTTP_OK) {
                 System.out.println("Не удалось сохранить данные");
             }
         } catch (IOException | InterruptedException e) {
@@ -65,7 +79,14 @@ public class KVTaskClient {
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)
             );
-            return response.body();
+
+            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
+                return response.body();
+            } else {
+                System.out.println("Error: " + response.statusCode());
+                return response.body();
+            }
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return "Во время запроса произошла ошибка";

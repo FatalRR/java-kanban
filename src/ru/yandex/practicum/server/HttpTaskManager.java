@@ -66,6 +66,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
     @Override
     public void save() {
+        client.register();
         client.put(String.valueOf(Keys.KEY_TASKS), gson.toJson(tasks.values()));
         client.put(String.valueOf(Keys.KEY_EPICS), gson.toJson(epics.values()));
         client.put(String.valueOf(Keys.KEY_SUBTASK), gson.toJson(subtasks.values()));

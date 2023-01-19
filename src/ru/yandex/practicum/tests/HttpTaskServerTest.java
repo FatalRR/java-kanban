@@ -1,11 +1,8 @@
 package ru.yandex.practicum.tests;
 
 import com.google.gson.*;
-import com.sun.source.util.TaskListener;
 import org.junit.jupiter.api.*;
 import ru.yandex.practicum.adapters.LocalDateTimeAdapter;
-import ru.yandex.practicum.manager.Managers;
-import ru.yandex.practicum.manager.TasksManager;
 import ru.yandex.practicum.model.Status;
 import ru.yandex.practicum.model.tasks.Epic;
 import ru.yandex.practicum.model.tasks.Subtask;
@@ -14,6 +11,7 @@ import ru.yandex.practicum.server.HttpTaskServer;
 import ru.yandex.practicum.server.KVServer;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -111,7 +109,7 @@ class HttpTaskServerTest {
                     .GET()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
             JsonArray arrayTasks = JsonParser.parseString(response.body()).getAsJsonArray();
             assertEquals(1, arrayTasks.size());
         } catch (IOException | InterruptedException e) {
@@ -136,7 +134,7 @@ class HttpTaskServerTest {
                     .GET()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
             JsonArray arrayTasks = JsonParser.parseString(response.body()).getAsJsonArray();
             assertEquals(1, arrayTasks.size());
         } catch (IOException | InterruptedException e) {
@@ -156,8 +154,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 System.out.println(postResponse.body());
                 int epicId = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 epic.setId(epicId);
@@ -175,7 +173,7 @@ class HttpTaskServerTest {
                         GET().
                         build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 JsonArray arrayTasks = JsonParser.parseString(response.body()).getAsJsonArray();
                 assertEquals(1, arrayTasks.size());
             }
@@ -196,8 +194,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 task.setId(id);
                 uri = URI.create(TASK_URL + "?id=" + id);
@@ -206,7 +204,7 @@ class HttpTaskServerTest {
                         .GET()
                         .build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 Task responseTask = gson.fromJson(response.body(), Task.class);
                 assertEquals(task, responseTask);
             }
@@ -227,8 +225,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 epic.setId(id);
                 uri = URI.create(EPIC_URL + "?id=" + id);
@@ -237,7 +235,7 @@ class HttpTaskServerTest {
                         .GET()
                         .build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 Epic responseTask = gson.fromJson(response.body(), Epic.class);
                 assertEquals(epic, responseTask);
             }
@@ -258,8 +256,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int epicId = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 epic.setId(epicId);
                 Subtask subtask = createSubtask(epic);
@@ -271,7 +269,7 @@ class HttpTaskServerTest {
                         .build();
                 postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                assertEquals(201, postResponse.statusCode(), "POST запрос");
+                assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
                 if (postResponse.statusCode() == 201) {
                     int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                     subtask.setId(id);
@@ -281,7 +279,7 @@ class HttpTaskServerTest {
                             .GET()
                             .build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    assertEquals(200, response.statusCode());
+                    assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                     Subtask responseTask = gson.fromJson(response.body(), Subtask.class);
                     assertEquals(subtask, responseTask);
                 }
@@ -303,7 +301,7 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (postResponse.statusCode() == 201) {
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 task.setId(id);
                 task.setStatus(Status.IN_PROGRESS);
@@ -316,7 +314,7 @@ class HttpTaskServerTest {
                 url = URI.create(TASK_URL + "?id=" + id);
                 request = HttpRequest.newBuilder().uri(url).GET().build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 Task responseTask = gson.fromJson(response.body(), Task.class);
                 assertEquals(task, responseTask);
             }
@@ -337,8 +335,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 200) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_OK) {
                 int epicId = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 epic.setId(epicId);
                 Subtask subtask = createSubtask(epic);
@@ -350,7 +348,7 @@ class HttpTaskServerTest {
                         .build();
                 postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                if (postResponse.statusCode() == 201) {
+                if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                     int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                     subtask.setId(id);
                     subtask.setStatus(Status.IN_PROGRESS);
@@ -366,7 +364,7 @@ class HttpTaskServerTest {
                             .GET()
                             .build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    assertEquals(200, response.statusCode());
+                    assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                     Subtask responseTask = gson.fromJson(response.body(), Subtask.class);
                     assertEquals(subtask, responseTask);
                 }
@@ -393,7 +391,7 @@ class HttpTaskServerTest {
                     .DELETE()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
             request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
@@ -423,13 +421,13 @@ class HttpTaskServerTest {
                     .DELETE()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
             request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
                     .build();
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
             JsonArray arrayTasks = JsonParser.parseString(response.body()).getAsJsonArray();
             assertEquals(0, arrayTasks.size());
         } catch (IOException | InterruptedException e) {
@@ -449,8 +447,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int epicId = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 epic.setId(epicId);
                 Subtask subtask = createSubtask(epic);
@@ -467,13 +465,13 @@ class HttpTaskServerTest {
                         .DELETE()
                         .build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 request = HttpRequest.newBuilder()
                         .uri(uri)
                         .GET()
                         .build();
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
                 JsonArray arrayTasks = JsonParser.parseString(response.body()).getAsJsonArray();
                 assertEquals(0, arrayTasks.size());
             }
@@ -501,7 +499,7 @@ class HttpTaskServerTest {
                     .DELETE()
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(200, response.statusCode());
+            assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
 
             request = HttpRequest.newBuilder()
                     .uri(uri)
@@ -526,8 +524,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 201) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                 int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                 uri = URI.create(EPIC_URL + "?id=" + id);
                 request = HttpRequest.newBuilder()
@@ -535,7 +533,7 @@ class HttpTaskServerTest {
                         .DELETE()
                         .build();
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                assertEquals(200, response.statusCode());
+                assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
 
                 request = HttpRequest.newBuilder()
                         .uri(uri)
@@ -561,8 +559,8 @@ class HttpTaskServerTest {
 
         try {
             HttpResponse<String> postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            assertEquals(201, postResponse.statusCode(), "POST запрос");
-            if (postResponse.statusCode() == 200) {
+            assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+            if (postResponse.statusCode() == HttpURLConnection.HTTP_OK) {
                 Subtask subtask = createSubtask(epic);
                 uri = URI.create(SUBTASK_URL);
 
@@ -572,8 +570,8 @@ class HttpTaskServerTest {
                         .build();
                 postResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                assertEquals(201, postResponse.statusCode(), "POST запрос");
-                if (postResponse.statusCode() == 201) {
+                assertEquals(HttpURLConnection.HTTP_CREATED, postResponse.statusCode(), "POST запрос");
+                if (postResponse.statusCode() == HttpURLConnection.HTTP_CREATED) {
                     int id = Integer.parseInt(postResponse.body().replaceAll("\\D+", ""));
                     subtask.setId(id);
                     uri = URI.create(SUBTASK_URL + "?id=" + id);
@@ -582,7 +580,7 @@ class HttpTaskServerTest {
                             .DELETE()
                             .build();
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    assertEquals(200, response.statusCode());
+                    assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
 
                     request = HttpRequest.newBuilder().uri(uri).GET().build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());

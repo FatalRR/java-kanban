@@ -11,17 +11,13 @@ import ru.yandex.practicum.model.tasks.Task;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 public class TaskHandler implements HttpHandler {
     private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final TasksManager tasksManager;
 
     public TaskHandler(TasksManager taskManager) {
@@ -32,13 +28,13 @@ public class TaskHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         int statusCode;
         String response;
-        String method = httpExchange.getRequestMethod();
+        QueriesType method = QueriesType.fromValue(httpExchange.getRequestMethod());
 
         switch (method) {
-            case "GET":
+            case GET:
                 String query = httpExchange.getRequestURI().getQuery();
                 if (query == null) {
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                     response = gson.toJson(tasksManager.getAllTasks());
                 } else {
                     try {
@@ -49,17 +45,17 @@ public class TaskHandler implements HttpHandler {
                         } else {
                             response = "Задача с данным id не найдена";
                         }
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
-            case "POST":
+            case POST:
                 String bodyRequest = new String(httpExchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                 try {
                     Task task = gson.fromJson(bodyRequest, Task.class);
@@ -67,46 +63,46 @@ public class TaskHandler implements HttpHandler {
 
                     if (tasksManager.getTaskById(id) != null) {
                         tasksManager.updateTask(task);
-                        statusCode = 201;
+                        statusCode = HttpURLConnection.HTTP_CREATED;
                         response = "Задача с id=" + id + " обновлена";
                     } else {
                         tasksManager.createTask(task);
                         System.out.println("CREATED TASK: " + task);
                         int idCreated = task.getId();
-                        statusCode = 201;
+                        statusCode = HttpURLConnection.HTTP_CREATED;
                         response = "Создана задача с id=" + idCreated;
                     }
                 } catch (JsonSyntaxException e) {
-                    statusCode = 400;
+                    statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                     response = "Неверный формат запроса";
                 }
                 break;
-            case "DELETE":
+            case DELETE:
                 response = "";
                 query = httpExchange.getRequestURI().getQuery();
                 if (query == null) {
                     tasksManager.deleteAllTasks();
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                 } else {
                     try {
                         int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));
                         tasksManager.deleteTaskById(id);
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
             default:
-                statusCode = 400;
+                statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                 response = "Некорректный запрос";
         }
 
-        httpExchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + DEFAULT_CHARSET);
+        httpExchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + StandardCharsets.UTF_8);
         httpExchange.sendResponseHeaders(statusCode, 0);
 
         try (OutputStream os = httpExchange.getResponseBody()) {

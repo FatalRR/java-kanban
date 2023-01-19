@@ -11,13 +11,12 @@ import ru.yandex.practicum.model.tasks.Epic;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
+import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 public class EpicHandler implements HttpHandler {
     private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final TasksManager tasksManager;
 
     public EpicHandler(TasksManager tasksManager) {
@@ -29,13 +28,13 @@ public class EpicHandler implements HttpHandler {
         int statusCode;
         String response;
 
-        String method = exchange.getRequestMethod();
+        QueriesType method = QueriesType.fromValue(exchange.getRequestMethod());
 
         switch (method) {
-            case "GET":
+            case GET:
                 String query = exchange.getRequestURI().getQuery();
                 if (query == null) {
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                     response = gson.toJson(tasksManager.getAllEpic());
                 } else {
                     try {
@@ -46,64 +45,64 @@ public class EpicHandler implements HttpHandler {
                         } else {
                             response = "Эпик с данным id не найден";
                         }
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
-            case "POST":
+            case POST:
                 String bodyRequest = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                 try {
                     Epic epic = gson.fromJson(bodyRequest, Epic.class);
                     int id = epic.getId();
                     if (tasksManager.getEpicById(id) != null) {
                         tasksManager.updateTask(epic);
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                         response = "Эпик с id=" + id + " обновлен";
                     } else {
                         System.out.println("CREATED");
                         tasksManager.createEpic(epic);
                         System.out.println("CREATED EPIC: " + epic);
                         int idCreated = epic.getId();
-                        statusCode = 201;
+                        statusCode = HttpURLConnection.HTTP_CREATED;
                         response = "Создан эпик с id=" + idCreated;
                     }
                 } catch (JsonSyntaxException e) {
-                    statusCode = 400;
+                    statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                     response = "Неверный формат запроса";
                 }
                 break;
-            case "DELETE":
+            case DELETE:
                 response = "";
                 query = exchange.getRequestURI().getQuery();
                 if (query == null) {
                     tasksManager.deleteAllEpics();
-                    statusCode = 200;
+                    statusCode = HttpURLConnection.HTTP_OK;
                 } else {
                     try {
                         int id = Integer.parseInt(query.substring(query.indexOf("id=") + 3));
                         tasksManager.deleteEpicById(id);
-                        statusCode = 200;
+                        statusCode = HttpURLConnection.HTTP_OK;
                     } catch (StringIndexOutOfBoundsException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "В запросе отсутствует необходимый параметр id";
                     } catch (NumberFormatException e) {
-                        statusCode = 400;
+                        statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                         response = "Неверный формат id";
                     }
                 }
                 break;
             default:
-                statusCode = 400;
+                statusCode = HttpURLConnection.HTTP_BAD_REQUEST;
                 response = "Некорректный запрос";
         }
 
-        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + DEFAULT_CHARSET);
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=" + StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(statusCode, 0);
 
         try (OutputStream os = exchange.getResponseBody()) {
